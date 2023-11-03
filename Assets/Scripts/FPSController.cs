@@ -29,12 +29,21 @@ public class FPSController : MonoBehaviour
 
     private void HandleMovement()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
 
-        Vector3 moveDirection = (transform.forward * verticalInput + transform.right * horizontalInput).normalized;
-        controller.Move(moveDirection * moveSpeed * Time.deltaTime);
+        Vector3 forward = cameraScript.transform.forward;
+        Vector3 right = cameraScript.transform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 moveDirection = forward * verticalInput + right * horizontalInput;
+        controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
     }
+
 
     private void HandleCameraRotation()
     {

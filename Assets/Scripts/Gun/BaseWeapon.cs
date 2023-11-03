@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
-public class BaseWeapon : MonoBehaviour
+[CreateAssetMenu]
+public class BaseWeapon : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject weaponPrefab;
+    public int damage;
+    public int firerate;
+    public enum shootingStyle
     {
-        
-    }
+        Single,
+        Auto,
+        Burst
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
+    public shootingStyle fireType;
+    public enum weaponType
+    { 
+        Primary,
+        Secondary
+    }
+    public weaponType inventorySlot;
+    public int reloadTime;
 }
