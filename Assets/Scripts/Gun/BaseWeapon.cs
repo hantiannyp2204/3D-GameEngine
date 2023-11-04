@@ -20,7 +20,8 @@ public class BaseWeapon : ScriptableObject
     public enum weaponType
     { 
         Primary,
-        Secondary
+        Secondary,
+        None
     }
     public weaponType inventorySlot;
     public int reloadTime;
