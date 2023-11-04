@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 100000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
   damage: 0
-  firerate: 0
+  firerate: 800
+  ammoCount: 28
   fireType: 1
   inventorySlot: 0
   reloadTime: 0

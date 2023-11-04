@@ -9,6 +9,7 @@ public class BaseWeapon : ScriptableObject
     public GameObject weaponPrefab;
     public int damage;
     public int firerate;
+    public int ammoCount;
     public enum shootingStyle
     {
         Single,
