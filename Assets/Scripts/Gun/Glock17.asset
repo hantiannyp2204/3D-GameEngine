@@ -15,7 +15,8 @@ MonoBehaviour:
   weaponPrefab: {fileID: 100000, guid: b3248db90896a6f46a0cdb09d671a88f, type: 3}
   damage: 20
   firerate: 200
-  ammoCount: 20
+  maxAmmo: 12
+  currentAmmo: 12
   fireType: 0
   inventorySlot: 1
   reloadTime: 2

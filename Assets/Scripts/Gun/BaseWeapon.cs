@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -9,7 +10,8 @@ public class BaseWeapon : ScriptableObject
     public GameObject weaponPrefab;
     public int damage;
     public int firerate;
-    public int ammoCount;
+    public int maxAmmo;
+    public int currentAmmo;
     public enum shootingStyle
     {
         Single,

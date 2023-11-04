@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using UnityEngine;
 
 public class ShootSystem : MonoBehaviour
@@ -8,13 +9,14 @@ public class ShootSystem : MonoBehaviour
 
     public BaseWeapon currentWeapon;
 
-    private bool readyToShoot, isShooting,isReloading;
+    private bool readyToShoot, isShooting;
     
+    public bool isReloading;
     private void Start()
     {
         cameraScript = GetComponentInChildren<CameraScipt>();
         readyToShoot = true;
-
+        isReloading = false;
     }
     // Update is called once per frame
     void Update()
@@ -35,13 +37,17 @@ public class ShootSystem : MonoBehaviour
             {
                 isShooting = Input.GetButton("Fire1");
             }
-            if (isShooting && readyToShoot)
+            if (isShooting && readyToShoot && currentWeapon.currentAmmo > 0 && !isReloading)
             {
                 Debug.Log("PEW");
                 Shoot();
             }
         }
-        
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            isReloading = true;
+            Invoke("Reload", currentWeapon.reloadTime);
+        }
         
     }
 
@@ -56,7 +62,7 @@ public class ShootSystem : MonoBehaviour
             //c.OnDamaged(10);
             Debug.Log("hit");
         }
-        //currentWeapon.ammoCount--;
+        currentWeapon.currentAmmo--;
         Invoke("gunReadyFire", 1/currentWeapon.firerate);
     }
     private void gunReadyFire()
@@ -65,6 +71,7 @@ public class ShootSystem : MonoBehaviour
     }
     void Reload()
     {
-
+        isReloading = false;
+        currentWeapon.currentAmmo = currentWeapon.maxAmmo;
     }
 }
