@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f67a146deebfbe4487477e12662188b, type: 3}
-  m_Name: Glock17
+  m_Name: Shotgun
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 100000, guid: b3248db90896a6f46a0cdb09d671a88f, type: 3}
-  damage: 20
-  firerate: 200
-  maxAmmo: 12
-  currentAmmo: 9
+  weaponPrefab: {fileID: 100000, guid: 621a34edc52ed564691a1e478641944a, type: 3}
+  damage: 30
+  firerate: 100
+  maxAmmo: 8
+  currentAmmo: 8
   fireType: 0
-  inventorySlot: 1
-  reloadTime: 2
-  weaponKick: 2
+  inventorySlot: 0
+  reloadTime: 1
+  weaponKick: 5

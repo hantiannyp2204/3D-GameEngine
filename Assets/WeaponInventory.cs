@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,7 +15,8 @@ public class WeaponInventory : MonoBehaviour
         Secondary = 1,
     }
     public BaseWeapon.weaponType currentInventorySlot;
-    public List<BaseWeapon> inventory;
+    [SerializeField]
+    private List<BaseWeapon> inventory;
 
     public Transform hand;
 
@@ -60,21 +62,26 @@ public class WeaponInventory : MonoBehaviour
     }
     void switchWeapon(inventorySlot switchIndex)
     {
-        //destroy current equiped weaopn prefab
-        if(spawnedWeaponPrefab != null)
-        {
-            Destroy(spawnedWeaponPrefab);
-        }
 
         //switch current equiped index to secondary slot
         currentEquiped = inventory[(int)switchIndex];
         updateCurrentEquipedIndex();
 
         //create the gameobject into the game if it dont exist
-        if (inventory[(int)switchIndex] != null)
+        renderWeapon((int)switchIndex);
+
+    }
+    void renderWeapon(int weaponIndex)
+    {
+        //destroy current equiped weaopn prefab
+        Debug.Log("Weapon prefab destroyed");
+        Destroy(spawnedWeaponPrefab);
+
+        if (inventory[(int)weaponIndex] != null)
         {
             //change current inv to secondary
             spawnedWeaponPrefab = Instantiate(inventory[(int)currentInventorySlot].weaponPrefab, hand.position, hand.rotation, hand);
+            Debug.Log("New prefab rendered" + inventory[(int)currentInventorySlot].weaponPrefab);
             spawnedWeaponPrefab.SetActive(true);
 
         }
@@ -83,7 +90,7 @@ public class WeaponInventory : MonoBehaviour
             Debug.Log("no weapon");
         }
     }
-    void addWeapon(BaseWeapon newWeapon)
+    public void addWeapon(BaseWeapon newWeapon)
     {
 
         //set the new weapon into the inventory
@@ -91,21 +98,31 @@ public class WeaponInventory : MonoBehaviour
         {
             case BaseWeapon.weaponType.Primary:
                 //replace if weapon already exist
-                if (inventory[0] != null)
-                {
-                    inventory[0] = null;
-                }
                 inventory[0] = newWeapon;
+                if (currentInventorySlot == newWeapon.inventorySlot)
+                {
+                    Debug.Log("Weapon replaced");
+                    currentEquiped = newWeapon;
+                    renderWeapon((int)newWeapon.inventorySlot);
+               
+                }
+                
+                
                 break;
             case BaseWeapon.weaponType.Secondary:
-                if (inventory[1] != null)
-                {
-                    inventory[1] = null;
-                }
                 inventory[1] = newWeapon;
+                if (currentInventorySlot == newWeapon.inventorySlot)
+                {
+                    currentEquiped = newWeapon;
+                    renderWeapon((int)newWeapon.inventorySlot);
+                }
+
                 break;
         }
-
-
+        updateCurrentEquipedIndex();
+    }
+    public BaseWeapon GetItem(int index)
+    {
+        return inventory[index];
     }
 }

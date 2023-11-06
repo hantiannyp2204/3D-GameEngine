@@ -9,7 +9,7 @@ public class BaseWeapon : ScriptableObject
 {
     public GameObject weaponPrefab;
     public int damage;
-    public int firerate;
+    public float firerate;
     public int maxAmmo;
     public int currentAmmo;
     public enum shootingStyle
@@ -27,5 +27,6 @@ public class BaseWeapon : ScriptableObject
         None
     }
     public weaponType inventorySlot;
-    public int reloadTime;
+    public float reloadTime;
+    public float weaponKick;
 }

@@ -11,17 +11,14 @@ public class CameraScipt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Shake();
-        }
+
     }
 
-    public void Shake()
+    public void Shake(float inStrength)
     {
-        StartCoroutine(PerformSimpleShake());
+        StartCoroutine(PerformSimpleShake(inStrength));
     }
-    IEnumerator PerformSimpleShake()
+    IEnumerator PerformSimpleShake(float inStrength)
     {
         Quaternion startRotation = transform.localRotation; // Store the original rotation
         float elapsedTime = 0.0f;
@@ -30,11 +27,11 @@ public class CameraScipt : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-    
+            var strength = inStrength * Mathf.Lerp(1, 0, elapsedTime / shakedDuration);
             transform.localRotation = Quaternion.Euler(new Vector3(
-                transform.localEulerAngles.x + UnityEngine.Random.Range(-1, 1),
-                transform.localEulerAngles.y + UnityEngine.Random.Range(-1, 1),
-                transform.localEulerAngles. z + UnityEngine.Random.Range(-1, 1)
+                transform.localEulerAngles.x + UnityEngine.Random.Range(-1, 1) * strength,
+                transform.localEulerAngles.y + UnityEngine.Random.Range(-1, 1) * strength,
+                transform.localEulerAngles. z + UnityEngine.Random.Range(-1, 1) * strength
             ));
 
 
