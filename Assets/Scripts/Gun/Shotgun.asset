@@ -16,8 +16,8 @@ MonoBehaviour:
   damage: 30
   firerate: 100
   maxAmmo: 8
-  currentAmmo: 8
+  currentAmmo: 2
   fireType: 0
   inventorySlot: 0
   reloadTime: 1
-  weaponKick: 5
+  weaponKick: 10

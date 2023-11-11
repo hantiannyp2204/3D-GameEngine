@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f67a146deebfbe4487477e12662188b, type: 3}
   m_Name: Ak47
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 100000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
+  weaponPrefab: {fileID: 8533060341181582227, guid: dec385ec052b0be41838ff39eb6f45cd, type: 3}
   damage: 0
   firerate: 600
   maxAmmo: 30
-  currentAmmo: 30
+  currentAmmo: 6
   fireType: 1
   inventorySlot: 0
   reloadTime: 2.7
-  weaponKick: 5
+  weaponKick: 1

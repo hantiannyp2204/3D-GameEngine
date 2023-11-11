@@ -54,6 +54,7 @@ public class ShootSystem : MonoBehaviour
     private void Shoot()
     {
         readyToShoot = false;
+
         RaycastHit hit;
         cameraScript.Shake(currentWeapon.weaponKick);
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 100))
@@ -63,6 +64,9 @@ public class ShootSystem : MonoBehaviour
             Debug.Log("hit");
         }
         currentWeapon.currentAmmo--;
+
+
+
         Invoke("gunReadyFire", (float)(60/currentWeapon.firerate));
     }
     private void gunReadyFire()
