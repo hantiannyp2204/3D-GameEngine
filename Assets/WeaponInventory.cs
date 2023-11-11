@@ -113,40 +113,26 @@ public class WeaponInventory : MonoBehaviour
     {
 
         //set the new weapon into the inventory
-        switch (newWeapon.inventorySlot)
+        inventory[(int)newWeapon.inventorySlot] = newWeapon;
+
+        //replace if weapon already exist
+        if (inventory[(int)newWeapon.inventorySlot] != null)
         {
-            case BaseWeapon.weaponType.Primary:
+            //remove existing prefab to reset its stats and prevent multiple from being rendered
+            Destroy(spawnedWeaponPrefab[(int)newWeapon.inventorySlot]);
+            Debug.Log("Weapon replaced");
+            //swap current weapon with new one if new weapon uses the same slot
+            if (currentInventorySlot == newWeapon.inventorySlot)
+            {
+                
+                currentEquiped = newWeapon;
+            }
 
-                inventory[0] = newWeapon;
-                //replace if weapon already exist
-                if (inventory[0] != null)
-                {
-                    Destroy(spawnedWeaponPrefab[0]);
-                    Debug.Log("Weapon replaced");
-                    currentEquiped = newWeapon;
-                }
-                //render the weapon
-                spawnedWeaponPrefab[0] = Instantiate(newWeapon.weaponPrefab, hand.position, hand.rotation, hand);
-                Debug.Log("New prefab rendered" + newWeapon.weaponPrefab);
-                spawnedWeaponPrefab[0].SetActive(true);
-
-
-                break;
-            case BaseWeapon.weaponType.Secondary:
-                inventory[1] = newWeapon;
-                //replace if weapon already exist
-                if (inventory[1] != null || currentInventorySlot != BaseWeapon.weaponType.None)
-                {
-                    Destroy(spawnedWeaponPrefab[1]);
-                    Debug.Log("Weapon replaced");
-                    currentEquiped = newWeapon;
-                }
-                //render the weapon
-                spawnedWeaponPrefab[1] = Instantiate(newWeapon.weaponPrefab, hand.position, hand.rotation, hand);
-                Debug.Log("New prefab rendered" + newWeapon.weaponPrefab);
-                spawnedWeaponPrefab[1].SetActive(true);
-                break;
         }
+        //render the weapon
+        spawnedWeaponPrefab[(int)newWeapon.inventorySlot] = Instantiate(newWeapon.weaponPrefab, hand.position, hand.rotation, hand);
+        Debug.Log("New prefab rendered" + newWeapon.weaponPrefab);
+        spawnedWeaponPrefab[(int)newWeapon.inventorySlot].SetActive(true);
 
         //equip weapon if no weapon is in inventory/equiped
         if (currentEquiped == null)
