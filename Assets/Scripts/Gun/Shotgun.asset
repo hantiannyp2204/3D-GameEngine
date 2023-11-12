@@ -16,7 +16,10 @@ MonoBehaviour:
   damage: 30
   firerate: 100
   maxAmmo: 8
-  fireType: 0
+  spread: 0.06
+  palletAmount: 6
+  timeBetweenShots: 0
+  fireType: 3
   inventorySlot: 0
   reloadTime: 1
   weaponKick: 10

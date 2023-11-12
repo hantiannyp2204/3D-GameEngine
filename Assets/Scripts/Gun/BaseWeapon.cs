@@ -11,11 +11,16 @@ public class BaseWeapon : ScriptableObject
     public int damage;
     public float firerate;
     public int maxAmmo;
+
+    public float spread;
+    public int palletAmount;
+    public float timeBetweenShots;
     public enum shootingStyle
     {
         Single,
         Auto,
-        Burst
+        Burst,
+        Spread
 
     }
     public shootingStyle fireType;

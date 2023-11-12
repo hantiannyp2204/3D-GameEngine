@@ -6,5 +6,5 @@ public class AmmoCounter : MonoBehaviour
 {
     public int currentAmmo;
 
-
+    public int currentPallet;
 }

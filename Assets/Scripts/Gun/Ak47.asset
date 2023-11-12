@@ -16,7 +16,9 @@ MonoBehaviour:
   damage: 0
   firerate: 600
   maxAmmo: 30
-  currentAmmo: 6
+  spread: 0
+  palletAmount: 0
+  timeBetweenShots: 0
   fireType: 1
   inventorySlot: 0
   reloadTime: 2.7

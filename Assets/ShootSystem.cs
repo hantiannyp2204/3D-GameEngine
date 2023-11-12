@@ -7,6 +7,8 @@ public class ShootSystem : MonoBehaviour
 {
     private CameraScipt cameraScript;
 
+    private Camera mainCam;
+
     private BaseWeapon currentWeapon;
 
     private AmmoCounter ammoCounter;
@@ -14,12 +16,18 @@ public class ShootSystem : MonoBehaviour
     private bool readyToShoot, isShooting;
     
     public bool isReloading;
+
+    //makes sure bullets only -1 if it is shotgun
+    private bool shellEjected;
+    public GameObject bulletHole;
     private void Start()
     {
         cameraScript = GetComponentInParent<CameraScipt>();
+        mainCam = GetComponentInParent<Camera>();
         ammoCounter = GetComponent<AmmoCounter>();
         readyToShoot = true;
         isReloading = false;
+
     }
     // Update is called once per frame
     void Update()
@@ -32,13 +40,14 @@ public class ShootSystem : MonoBehaviour
         if(currentWeapon !=null)
         {
             
-            if(currentWeapon.fireType == BaseWeapon.shootingStyle.Single)
+
+            if(currentWeapon.fireType == BaseWeapon.shootingStyle.Auto)
             {
-                isShooting = Input.GetButtonDown("Fire1");
+                isShooting = Input.GetMouseButton(0);
             }
-            else if(currentWeapon.fireType == BaseWeapon.shootingStyle.Auto)
+            else
             {
-                isShooting = Input.GetButton("Fire1");
+                isShooting = Input.GetMouseButtonDown(0);
             }
             if (isShooting && readyToShoot && ammoCounter.currentAmmo > 0 && !isReloading)
             {
@@ -58,19 +67,51 @@ public class ShootSystem : MonoBehaviour
     {
         readyToShoot = false;
 
-        RaycastHit hit;
-        cameraScript.Shake(currentWeapon.weaponKick);
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 100))
+        shellEjected = false;
+        //will loop for shotguns or bursts
+        for (int x = 0; x <= currentWeapon.palletAmount; x++)
         {
-            //Crate c = hit.transform.GetComponent<Crate>();
-            //c.OnDamaged(10);
-            Debug.Log("hit");
-        }
-        ammoCounter.currentAmmo--;
+            //Spread
+            float z = Random.Range(-currentWeapon.spread, currentWeapon.spread);
+            float y = Random.Range(-currentWeapon.spread, currentWeapon.spread);
+            RaycastHit hit;
+            Vector3 direction = mainCam.transform.forward + new Vector3(0, y, z);
+            Debug.Log(direction);
+           
 
+            if (Physics.Raycast(mainCam.transform.position, direction, out hit, 100))
+            {
+                //Crate c = hit.transform.GetComponent<Crate>();
+                //c.OnDamaged(10);
+                Debug.Log("hit");
+            }
+
+
+            if(shellEjected == false)
+            {
+                ammoCounter.currentAmmo--;
+            }
+            //if it is a shotgun, this will be true for the next loop iteration
+            if (currentWeapon.fireType == BaseWeapon.shootingStyle.Spread)
+            {
+                shellEjected = true;
+            }
+
+
+            Instantiate(bulletHole, hit.point, Quaternion.Euler(0, 90, 0));
+        }
+        
 
 
         Invoke("gunReadyFire", (float)(60/currentWeapon.firerate));
+
+
+
+
+        //spawn bullet holes
+        cameraScript.Shake(currentWeapon.weaponKick);
+
+
     }
     private void gunReadyFire()
     {
@@ -80,5 +121,6 @@ public class ShootSystem : MonoBehaviour
     {
         isReloading = false;
         ammoCounter.currentAmmo = currentWeapon.maxAmmo;
+        ammoCounter.currentPallet = currentWeapon.palletAmount;
     }
 }
