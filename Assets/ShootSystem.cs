@@ -7,14 +7,17 @@ public class ShootSystem : MonoBehaviour
 {
     private CameraScipt cameraScript;
 
-    public BaseWeapon currentWeapon;
+    private BaseWeapon currentWeapon;
+
+    private AmmoCounter ammoCounter;
 
     private bool readyToShoot, isShooting;
     
     public bool isReloading;
     private void Start()
     {
-        cameraScript = GetComponentInChildren<CameraScipt>();
+        cameraScript = GetComponentInParent<CameraScipt>();
+        ammoCounter = GetComponent<AmmoCounter>();
         readyToShoot = true;
         isReloading = false;
     }
@@ -22,7 +25,7 @@ public class ShootSystem : MonoBehaviour
     void Update()
     {
         HandleShooting();
-        currentWeapon = GetComponent<WeaponInventory>().currentEquiped;
+        currentWeapon = GetComponentInParent<WeaponInventory>().currentEquiped;
     }
     private void HandleShooting()
     {
@@ -37,7 +40,7 @@ public class ShootSystem : MonoBehaviour
             {
                 isShooting = Input.GetButton("Fire1");
             }
-            if (isShooting && readyToShoot && currentWeapon.currentAmmo > 0 && !isReloading)
+            if (isShooting && readyToShoot && ammoCounter.currentAmmo > 0 && !isReloading)
             {
                 Debug.Log("PEW");
                 Shoot();
@@ -63,7 +66,7 @@ public class ShootSystem : MonoBehaviour
             //c.OnDamaged(10);
             Debug.Log("hit");
         }
-        currentWeapon.currentAmmo--;
+        ammoCounter.currentAmmo--;
 
 
 
@@ -76,6 +79,6 @@ public class ShootSystem : MonoBehaviour
     void Reload()
     {
         isReloading = false;
-        currentWeapon.currentAmmo = currentWeapon.maxAmmo;
+        ammoCounter.currentAmmo = currentWeapon.maxAmmo;
     }
 }

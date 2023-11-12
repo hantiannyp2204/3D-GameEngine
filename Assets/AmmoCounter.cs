@@ -6,9 +6,5 @@ public class AmmoCounter : MonoBehaviour
 {
     public int currentAmmo;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

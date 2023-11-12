@@ -131,8 +131,11 @@ public class WeaponInventory : MonoBehaviour
         }
         //render the weapon
         spawnedWeaponPrefab[(int)newWeapon.inventorySlot] = Instantiate(newWeapon.weaponPrefab, hand.position, hand.rotation, hand);
-        Debug.Log("New prefab rendered" + newWeapon.weaponPrefab);
-        spawnedWeaponPrefab[(int)newWeapon.inventorySlot].SetActive(true);
+
+
+        //set weapon's ammo to max
+        Debug.Log(spawnedWeaponPrefab[(int)newWeapon.inventorySlot]);
+        spawnedWeaponPrefab[(int)newWeapon.inventorySlot].GetComponent<AmmoCounter>().currentAmmo = newWeapon.maxAmmo;
 
         //equip weapon if no weapon is in inventory/equiped
         if (currentEquiped == null)

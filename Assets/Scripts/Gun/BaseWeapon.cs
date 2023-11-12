@@ -11,7 +11,6 @@ public class BaseWeapon : ScriptableObject
     public int damage;
     public float firerate;
     public int maxAmmo;
-    public int currentAmmo;
     public enum shootingStyle
     {
         Single,
