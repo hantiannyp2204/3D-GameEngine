@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Net;
 using UnityEngine;
 
 public class ShootSystem : MonoBehaviour
@@ -13,27 +14,53 @@ public class ShootSystem : MonoBehaviour
 
     private AmmoCounter ammoCounter;
 
-    private bool readyToShoot, isShooting;
+    private bool readyToShoot, isShooting, isAiming;
     
     public bool isReloading;
 
+    private GameObject crosshair;
+    public Vector3 aimpoint;
+    public Quaternion aimRotation;
     //makes sure bullets only -1 if it is shotgun
     private bool shellEjected;
     public GameObject bulletHole;
+
+    public float adsSpeed;
     private void Start()
     {
+        crosshair = GameObject.Find("Crosshair");
         cameraScript = GetComponentInParent<CameraScipt>();
         mainCam = GetComponentInParent<Camera>();
         ammoCounter = GetComponent<AmmoCounter>();
         readyToShoot = true;
         isReloading = false;
-
     }
     // Update is called once per frame
     void Update()
     {
         HandleShooting();
+        HandleADS();
         currentWeapon = GetComponentInParent<WeaponInventory>().currentEquiped;
+        
+    }
+    private void HandleADS()
+    {
+                    
+        isAiming = Input.GetMouseButton(1);
+        if(isAiming)
+        {
+            transform.localPosition = Vector3.Slerp(transform.localPosition, aimpoint, adsSpeed * Time.deltaTime);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, aimRotation, adsSpeed * Time.deltaTime);
+            cameraScript.FOVchange(30, adsSpeed);
+            crosshair.SetActive(false);
+        }
+        else
+        {
+            transform.localPosition = Vector3.Slerp(transform.localPosition, Vector3.zero, adsSpeed * Time.deltaTime);
+            cameraScript.FOVchange(60,adsSpeed);
+            crosshair.SetActive(true);
+        }
+
     }
     private void HandleShooting()
     {
@@ -69,13 +96,16 @@ public class ShootSystem : MonoBehaviour
 
         shellEjected = false;
         //will loop for shotguns or bursts
-        for (int x = 0; x <= currentWeapon.palletAmount; x++)
+        for (int i = 0; i <= currentWeapon.palletAmount; i++)
         {
             //Spread
-            float z = Random.Range(-currentWeapon.spread, currentWeapon.spread);
+            float x = Random.Range(-currentWeapon.spread, currentWeapon.spread);
             float y = Random.Range(-currentWeapon.spread, currentWeapon.spread);
             RaycastHit hit;
-            Vector3 direction = mainCam.transform.forward + new Vector3(0, y, z);
+            //uinsg main camera's own position instead of the world's
+
+            //direction = forward of where my cam is + Random(x axis of my camera) + Random(y axis of my camera)
+            Vector3 direction = mainCam.transform.forward + mainCam.transform.right * x + mainCam.transform.up*y;
             Debug.Log(direction);
            
 
@@ -97,8 +127,9 @@ public class ShootSystem : MonoBehaviour
                 shellEjected = true;
             }
 
-
-            Instantiate(bulletHole, hit.point, Quaternion.Euler(0, 90, 0));
+            //Quaternion.LookRotation(hit.normal) means where ever i am looking at's rotation
+            //hit normal makes it face upwards no matter the angle
+            Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
         }
         
 

@@ -15,6 +15,7 @@ public class BaseWeapon : ScriptableObject
     public float spread;
     public int palletAmount;
     public float timeBetweenShots;
+    public float AdsSpeed;
     public enum shootingStyle
     {
         Single,

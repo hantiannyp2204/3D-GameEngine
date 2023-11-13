@@ -7,13 +7,21 @@ public class CameraScipt : MonoBehaviour
 {
     public float shakedDuration;
 
+    private Camera mainCam;
 
+    private void Start()
+    {
+        mainCam= GetComponent<Camera>();
+    }
     // Update is called once per frame
     void Update()
     {
 
     }
-
+    public void FOVchange(float newFOV, float timeToChange)
+    {
+        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newFOV, timeToChange * Time.deltaTime);
+    }
     public void Shake(float inStrength)
     {
         StartCoroutine(PerformSimpleShake(inStrength));

@@ -134,8 +134,8 @@ public class WeaponInventory : MonoBehaviour
 
 
         //set weapon's ammo to max
-        spawnedWeaponPrefab[(int)newWeapon.inventorySlot].GetComponent<AmmoCounter>().currentAmmo = newWeapon.maxAmmo;
-        spawnedWeaponPrefab[(int)newWeapon.inventorySlot].GetComponent<AmmoCounter>().currentPallet = newWeapon.palletAmount;
+        spawnedWeaponPrefab[(int)newWeapon.inventorySlot].GetComponentInChildren<AmmoCounter>().currentAmmo = newWeapon.maxAmmo;
+        spawnedWeaponPrefab[(int)newWeapon.inventorySlot].GetComponentInChildren<AmmoCounter>().currentPallet = newWeapon.palletAmount;
 
         //equip weapon if no weapon is in inventory/equiped
         if (currentEquiped == null)
