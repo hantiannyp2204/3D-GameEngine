@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     private bool exitingSlope;
     
 
-    public Transform orientation;
+    public Transform camera;
 
     float horizontalInput;
     float verticalInput;
@@ -219,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         // calculate movement direction
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        moveDirection = camera.forward * verticalInput + camera.right * horizontalInput;
 
         // on slope
         if (OnSlope() && !exitingSlope)
