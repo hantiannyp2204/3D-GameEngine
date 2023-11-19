@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Crouching")]
     public float crouchSpeed;
-    public float crouchYScale;
     private float startYScale;
 
     [Header("Keybinds")]
@@ -47,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     
 
     public Transform camera;
+    public GameObject PlayerRender;
 
     float horizontalInput;
     float verticalInput;
@@ -118,14 +118,18 @@ public class PlayerMovement : MonoBehaviour
         // start crouch
         if (Input.GetKeyDown(crouchKey))
         {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            PlayerRender.transform.localScale = new Vector3(PlayerRender.transform.localScale.x, startYScale/2, PlayerRender.transform.localScale.z);
+            if(grounded)
+            {
+                rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            }
+           
         }
 
         // stop crouch
         if (Input.GetKeyUp(crouchKey))
         {
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            PlayerRender.transform.localScale = new Vector3(PlayerRender.transform.localScale.x, startYScale, PlayerRender.transform.localScale.z);
         }
     }
 

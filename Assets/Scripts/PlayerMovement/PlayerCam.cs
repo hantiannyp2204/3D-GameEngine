@@ -8,7 +8,7 @@ public class PlayerCam : MonoBehaviour
     public float sensY;
 
     public Transform camHolder;
-
+    public Transform playerRender;
     float xRotation;
     float yRotation;
 
@@ -31,6 +31,7 @@ public class PlayerCam : MonoBehaviour
 
         // rotate cam and orientation
         camHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+        playerRender.rotation = Quaternion.Euler(0, yRotation, 0);
     }
 
     public void DoFov(float endValue)
