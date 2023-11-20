@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f67a146deebfbe4487477e12662188b, type: 3}
   m_Name: Ak47
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 5554275427463300070, guid: 341d9ee2a09d45849a72c5485f1e3c8b, type: 3}
+  weaponPrefab: {fileID: 3479388568619933904, guid: 341d9ee2a09d45849a72c5485f1e3c8b, type: 3}
   damage: 0
   firerate: 600
   maxAmmo: 30

@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class BaseWeapon : ScriptableObject
 {
-    public GameObject weaponPrefab;
+    public ShootSystem weaponPrefab;
     public int damage;
     public float firerate;
     public int maxAmmo;

@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class WeaponInventory : MonoBehaviour
 {
+    public System.Action<ShootSystem> OnAddWeapon;
+
+
     public BaseWeapon testSecondary,testPrimary;
 
     public BaseWeapon currentEquiped;
@@ -21,7 +24,7 @@ public class WeaponInventory : MonoBehaviour
 
     public Transform hand;
 
-    GameObject[] spawnedWeaponPrefab = new GameObject[2];
+    ShootSystem[] spawnedWeaponPrefab = new ShootSystem[2];
     // Start is called before the first frame update
     void Start()
     {
@@ -70,24 +73,24 @@ public class WeaponInventory : MonoBehaviour
             case BaseWeapon.weaponType.Primary:
                 if (spawnedWeaponPrefab[1] != null)
                 {
-                    spawnedWeaponPrefab[1].SetActive(false);
+                    spawnedWeaponPrefab[1].gameObject.SetActive(false);
                 }
 
                 break;
             case BaseWeapon.weaponType.Secondary:
                 if (spawnedWeaponPrefab[0] != null)
                 {
-                    spawnedWeaponPrefab[0].SetActive(false);
+                    spawnedWeaponPrefab[0].gameObject.SetActive(false);
                 }
                 break;
             case BaseWeapon.weaponType.None:
                 if (spawnedWeaponPrefab[0] != null)
                 {
-                    spawnedWeaponPrefab[0].SetActive(false);
+                    spawnedWeaponPrefab[0].gameObject.SetActive(false);
                 }
                 if (spawnedWeaponPrefab[1] != null)
                 {
-                    spawnedWeaponPrefab[1].SetActive(false);
+                    spawnedWeaponPrefab[1].gameObject.SetActive(false);
                 }
                 break;
         }
@@ -105,21 +108,20 @@ public class WeaponInventory : MonoBehaviour
 
         if (inventory[(int)switchIndex] != null)
         {
-            spawnedWeaponPrefab[(int)switchIndex].SetActive(true);
+            spawnedWeaponPrefab[(int)switchIndex].gameObject.SetActive(true);
         }
     }
 
     public void addWeapon(BaseWeapon newWeapon)
     {
 
-        //set the new weapon into the inventory
-        inventory[(int)newWeapon.inventorySlot] = newWeapon;
+
 
         //replace if weapon already exist
         if (inventory[(int)newWeapon.inventorySlot] != null)
         {
             //remove existing prefab to reset its stats and prevent multiple from being rendered
-            Destroy(spawnedWeaponPrefab[(int)newWeapon.inventorySlot]);
+            Destroy(spawnedWeaponPrefab[(int)newWeapon.inventorySlot].gameObject);
             Debug.Log("Weapon replaced");
             //swap current weapon with new one if new weapon uses the same slot
             if (currentInventorySlot == newWeapon.inventorySlot)
@@ -129,9 +131,12 @@ public class WeaponInventory : MonoBehaviour
             }
 
         }
+        //set the new weapon into the inventory
+        inventory[(int)newWeapon.inventorySlot] = newWeapon;
+
         //render the weapon
         spawnedWeaponPrefab[(int)newWeapon.inventorySlot] = Instantiate(newWeapon.weaponPrefab, hand.position, hand.rotation, hand);
-
+        OnAddWeapon?.Invoke(spawnedWeaponPrefab[(int)newWeapon.inventorySlot]);
 
         //set weapon's ammo to max
         spawnedWeaponPrefab[(int)newWeapon.inventorySlot].GetComponentInChildren<AmmoCounter>().currentAmmo = newWeapon.maxAmmo;
@@ -150,4 +155,5 @@ public class WeaponInventory : MonoBehaviour
     {
         return inventory[index];
     }
+
 }

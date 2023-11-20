@@ -27,22 +27,14 @@ public class ShootSystem : MonoBehaviour
 
     public float adsSpeed;
 
-    private CameraScipt cameraScript;
-    private System.Action<float> cameraShake;
-
-    private GameManager gameManager;
-    private System.Action<BaseWeapon> shootObserver;
+    public System.Action<BaseWeapon> shootObserver;
     private void Start()
     {
-        cameraScript = CameraScipt.cs;
-        gameManager = GameManager.gm;
         crosshair = GameObject.Find("Crosshair");
         mainCam = GetComponentInParent<Camera>();
-        ammoCounter = GetComponent<AmmoCounter>();
+        ammoCounter = GetComponentInChildren<AmmoCounter>();
         readyToShoot = true;
         isReloading = false;
-        SubscribeForCamera(cameraScript.Shake);
-        SubscribeShoot(gameManager.PlayShootSound);
     }
     // Update is called once per frame
     void Update()
@@ -59,13 +51,13 @@ public class ShootSystem : MonoBehaviour
         {
             transform.localPosition = Vector3.Slerp(transform.localPosition, aimpoint, adsSpeed * Time.deltaTime);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, aimRotation, adsSpeed * Time.deltaTime);
-            cameraScript.FOVchange(30, adsSpeed);
+            //cameraScript.FOVchange(30, adsSpeed);
             crosshair.SetActive(false);
         }
         else
         {
             transform.localPosition = Vector3.Slerp(transform.localPosition, Vector3.zero, adsSpeed * Time.deltaTime);
-            cameraScript.FOVchange(60,adsSpeed);
+            //cameraScript.FOVchange(60,adsSpeed);
             crosshair.SetActive(true);
         }
     }
@@ -138,15 +130,14 @@ public class ShootSystem : MonoBehaviour
             //hit normal makes it face upwards no matter the angle
             Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
         }
-        
 
-
-        Invoke("gunReadyFire", (float)(60/currentWeapon.firerate));
-
-        cameraShake.Invoke(currentWeapon.weaponKick);
         //play sound
         Debug.Log(currentWeapon);
         shootObserver.Invoke(currentWeapon);
+
+        Invoke("gunReadyFire", (float)(60/currentWeapon.firerate));
+
+
     }
     private void gunReadyFire()
     {
@@ -159,12 +150,4 @@ public class ShootSystem : MonoBehaviour
         ammoCounter.currentPallet = currentWeapon.palletAmount;
     }
 
-    public void SubscribeForCamera(System.Action<float> ObserberEvent)
-    {
-        cameraShake += ObserberEvent;
-    }
-    public void SubscribeShoot(System.Action<BaseWeapon> ObserberEvent)
-    {
-        shootObserver += ObserberEvent;
-    }
 }

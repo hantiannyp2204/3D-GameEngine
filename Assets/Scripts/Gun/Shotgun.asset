@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f67a146deebfbe4487477e12662188b, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 6152902767076254446, guid: 32391c8301a148c488cacbc4ca25e2a8, type: 3}
+  weaponPrefab: {fileID: 6152902767076222029, guid: 32391c8301a148c488cacbc4ca25e2a8, type: 3}
   damage: 30
   firerate: 100
   maxAmmo: 8

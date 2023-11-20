@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2511436525561025728}
+  - component: {fileID: 3479388568619933904}
   m_Layer: 0
   m_Name: AK-47 Game
   m_TagString: Untagged
@@ -32,6 +33,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3479388568619933904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5554275427463300070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb37e3fb9d361954fa4c55e4015815c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isReloading: 0
+  aimpoint: {x: 0.33, y: 0.082, z: -0.3}
+  aimRotation: {x: 0, y: 0, z: 0.013089596, w: 0.99991435}
+  bulletHole: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
+  adsSpeed: 100
 --- !u!1 &9027322747807378287
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +62,6 @@ GameObject:
   - component: {fileID: 9027322747808610159}
   - component: {fileID: 9027322747809576367}
   - component: {fileID: 2219756477149979524}
-  - component: {fileID: 546023212811167671}
   m_Layer: 0
   m_Name: AK-47 Gun
   m_TagString: Untagged
@@ -131,20 +148,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAmmo: 0
   currentPallet: 0
---- !u!114 &546023212811167671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9027322747807378287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb37e3fb9d361954fa4c55e4015815c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isReloading: 0
-  aimpoint: {x: 0.33, y: 0.082, z: -0.3}
-  aimRotation: {x: 0, y: 0, z: 0.013089596, w: 0.99991435}
-  bulletHole: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
-  adsSpeed: 100

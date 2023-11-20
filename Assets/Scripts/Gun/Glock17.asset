@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f67a146deebfbe4487477e12662188b, type: 3}
   m_Name: Glock17
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 557668880607436969, guid: bb810b971cb218e4caef022d30b6c05f, type: 3}
+  weaponPrefab: {fileID: 557668880607405579, guid: bb810b971cb218e4caef022d30b6c05f, type: 3}
   damage: 20
   firerate: 200
   maxAmmo: 12

@@ -25,7 +25,6 @@ public class WeaponPickup : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, pickupRange, pickupLayer))
             {
-                Debug.Log("Picked up " + hit.transform.name);
 
                 BaseWeapon newItem = hit.transform.GetComponent<Item>().item as BaseWeapon;
                 playerInventory.addWeapon(newItem);
