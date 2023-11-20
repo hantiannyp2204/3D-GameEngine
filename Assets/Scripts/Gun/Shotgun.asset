@@ -19,7 +19,9 @@ MonoBehaviour:
   spread: 0.06
   palletAmount: 6
   timeBetweenShots: 0
+  AdsSpeed: 0
   fireType: 3
   inventorySlot: 0
   reloadTime: 1
   weaponKick: 10
+  weaponSound: {fileID: 8300000, guid: db9f935471a3a6f42b32ef0e775a4972, type: 3}

@@ -34,4 +34,5 @@ public class BaseWeapon : ScriptableObject
     public weaponType inventorySlot;
     public float reloadTime;
     public float weaponKick;
+    public AudioClip weaponSound;
 }

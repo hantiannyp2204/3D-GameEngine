@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Crouching")]
     public float crouchSpeed;
     private float startYScale;
+    private Vector3 camStartPos;
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
@@ -76,7 +77,8 @@ public class PlayerMovement : MonoBehaviour
 
         readyToJump = true;
 
-        startYScale = transform.localScale.y;
+        startYScale = PlayerRender.transform.localScale.y;
+        camStartPos = camera.transform.localPosition;
     }
 
     private void Update()
@@ -123,13 +125,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             }
-           
+            camera.transform.localPosition = Vector3.zero;
         }
 
         // stop crouch
         if (Input.GetKeyUp(crouchKey))
         {
             PlayerRender.transform.localScale = new Vector3(PlayerRender.transform.localScale.x, startYScale, PlayerRender.transform.localScale.z);
+            camera.transform.localPosition = camStartPos;
         }
     }
 

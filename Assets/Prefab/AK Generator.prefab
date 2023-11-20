@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2902482162390702868}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.27, z: 0}
-  m_LocalScale: {x: 0.34, y: 0.6, z: 0.48638}
+  m_LocalPosition: {x: 0, y: 0.077, z: 0}
+  m_LocalScale: {x: 0.34, y: 0.9981222, z: 0.48638}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2902482163323952271}
@@ -239,6 +239,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AK-47
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -290,19 +294,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}
   m_PrefabInstance: {fileID: 4126153575399361200}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9109949846672251747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126153575399328784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 055ccc86c29138248923222ed289f33a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: d90de937450fa3f458a9cffe50ebb018, type: 2}
 --- !u!65 &2218011682722214956
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -316,6 +307,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.06, y: 0.23632368, z: 0.27}
   m_Center: {x: -0.116303, y: -0.033833604, z: -0.0000000055879354}
+--- !u!114 &9109949846672251747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126153575399328784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 055ccc86c29138248923222ed289f33a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: d90de937450fa3f458a9cffe50ebb018, type: 2}
 --- !u!4 &4126153575399493680 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 7d0124d3bdb8cba4f834aae3a9962ddc, type: 3}

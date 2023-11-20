@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentAmmo: 0
+  currentPallet: 0
 --- !u!114 &557668880607405579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,3 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isReloading: 0
+  aimpoint: {x: 0, y: 0, z: 0}
+  aimRotation: {x: 0, y: 0, z: 0, w: 0}
+  bulletHole: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
+  adsSpeed: 0
+  cameraScript: {fileID: 0}

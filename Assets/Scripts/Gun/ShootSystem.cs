@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Net;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShootSystem : MonoBehaviour
 {
-    private CameraScipt cameraScript;
 
     private Camera mainCam;
 
@@ -26,14 +26,23 @@ public class ShootSystem : MonoBehaviour
     public GameObject bulletHole;
 
     public float adsSpeed;
+
+    private CameraScipt cameraScript;
+    private System.Action<float> cameraShake;
+
+    private GameManager gameManager;
+    private System.Action<BaseWeapon> shootObserver;
     private void Start()
     {
+        cameraScript = CameraScipt.cs;
+        gameManager = GameManager.gm;
         crosshair = GameObject.Find("Crosshair");
-        cameraScript = GetComponentInParent<CameraScipt>();
         mainCam = GetComponentInParent<Camera>();
         ammoCounter = GetComponent<AmmoCounter>();
         readyToShoot = true;
         isReloading = false;
+        SubscribeForCamera(cameraScript.Shake);
+        SubscribeShoot(gameManager.PlayShootSound);
     }
     // Update is called once per frame
     void Update()
@@ -45,7 +54,6 @@ public class ShootSystem : MonoBehaviour
     }
     private void HandleADS()
     {
-                    
         isAiming = Input.GetMouseButton(1);
         if(isAiming)
         {
@@ -60,7 +68,6 @@ public class ShootSystem : MonoBehaviour
             cameraScript.FOVchange(60,adsSpeed);
             crosshair.SetActive(true);
         }
-
     }
     private void HandleShooting()
     {
@@ -78,7 +85,7 @@ public class ShootSystem : MonoBehaviour
             }
             if (isShooting && readyToShoot && ammoCounter.currentAmmo > 0 && !isReloading)
             {
-                Debug.Log("PEW");
+
                 Shoot();
             }
         }
@@ -106,7 +113,7 @@ public class ShootSystem : MonoBehaviour
 
             //direction = forward of where my cam is + Random(x axis of my camera) + Random(y axis of my camera)
             Vector3 direction = mainCam.transform.forward + mainCam.transform.right * x + mainCam.transform.up*y;
-            Debug.Log(direction);
+     
            
 
             if (Physics.Raycast(mainCam.transform.position, direction, out hit, 100))
@@ -136,13 +143,10 @@ public class ShootSystem : MonoBehaviour
 
         Invoke("gunReadyFire", (float)(60/currentWeapon.firerate));
 
-
-
-
-        //spawn bullet holes
-        cameraScript.Shake(currentWeapon.weaponKick);
-
-
+        cameraShake.Invoke(currentWeapon.weaponKick);
+        //play sound
+        Debug.Log(currentWeapon);
+        shootObserver.Invoke(currentWeapon);
     }
     private void gunReadyFire()
     {
@@ -153,5 +157,14 @@ public class ShootSystem : MonoBehaviour
         isReloading = false;
         ammoCounter.currentAmmo = currentWeapon.maxAmmo;
         ammoCounter.currentPallet = currentWeapon.palletAmount;
+    }
+
+    public void SubscribeForCamera(System.Action<float> ObserberEvent)
+    {
+        cameraShake += ObserberEvent;
+    }
+    public void SubscribeShoot(System.Action<BaseWeapon> ObserberEvent)
+    {
+        shootObserver += ObserberEvent;
     }
 }

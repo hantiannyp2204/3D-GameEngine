@@ -16,7 +16,12 @@ MonoBehaviour:
   damage: 20
   firerate: 200
   maxAmmo: 12
+  spread: 0
+  palletAmount: 0
+  timeBetweenShots: 0
+  AdsSpeed: 0
   fireType: 0
   inventorySlot: 1
   reloadTime: 2
   weaponKick: 2
+  weaponSound: {fileID: 8300000, guid: b23c75aee060d8d41890329fb72e7d97, type: 3}

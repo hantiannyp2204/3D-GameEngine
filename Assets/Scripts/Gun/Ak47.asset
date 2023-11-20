@@ -24,3 +24,4 @@ MonoBehaviour:
   inventorySlot: 0
   reloadTime: 2.7
   weaponKick: 1
+  weaponSound: {fileID: 8300000, guid: f2e9fd0cc7ba26140a11683da6a46a9b, type: 3}

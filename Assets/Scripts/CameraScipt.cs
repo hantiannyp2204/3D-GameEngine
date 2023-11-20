@@ -5,26 +5,25 @@ using UnityEngine;
 
 public class CameraScipt : MonoBehaviour
 {
+    public static CameraScipt cs;
     public float shakedDuration;
 
     private Camera mainCam;
 
+    public float shakeStrength ;
     private void Start()
     {
+        cs = this;
         mainCam= GetComponent<Camera>();
     }
     // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void FOVchange(float newFOV, float timeToChange)
     {
         mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newFOV, timeToChange * Time.deltaTime);
     }
-    public void Shake(float inStrength)
+    public void Shake(float strength)
     {
-        StartCoroutine(PerformSimpleShake(inStrength));
+        StartCoroutine(PerformSimpleShake(strength));
     }
     IEnumerator PerformSimpleShake(float inStrength)
     {
