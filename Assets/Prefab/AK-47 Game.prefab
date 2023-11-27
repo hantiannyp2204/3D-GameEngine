@@ -1,5 +1,45 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &972506102931188431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4223775208259317776}
+  - component: {fileID: 1596222018954211809}
+  m_Layer: 0
+  m_Name: ProjectileTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4223775208259317776
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972506102931188431}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.55, y: 0.0344, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 2511436525561025728}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1596222018954211809
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972506102931188431}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5554275427463300070
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,6 +50,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2511436525561025728}
   - component: {fileID: 3479388568619933904}
+  - component: {fileID: 8970629466445405807}
   m_Layer: 0
   m_Name: AK-47 Game
   m_TagString: Untagged
@@ -30,6 +71,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9027322747807283023}
+  - {fileID: 4223775208259317776}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,7 +91,24 @@ MonoBehaviour:
   aimpoint: {x: 0.33, y: 0.082, z: -0.3}
   aimRotation: {x: 0, y: 0, z: 0.013089596, w: 0.99991435}
   bulletHole: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
-  adsSpeed: 100
+--- !u!114 &8970629466445405807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5554275427463300070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c5520392f314a42b7019eca1f7194b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 4673529153738011617, guid: d5fbbf70070ae614c9aa18bcbc81eb01, type: 3}
+  muzzlePosition: {fileID: 4223775208259317776}
+  cooldownWindow: 0.1
+  collectionCheck: 1
+  defaultCapacity: 5
+  maxSize: 5
 --- !u!1 &9027322747807378287
 GameObject:
   m_ObjectHideFlags: 0

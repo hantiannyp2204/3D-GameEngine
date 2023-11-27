@@ -9,13 +9,16 @@ public class BaseWeapon : ScriptableObject
 {
     public ShootSystem weaponPrefab;
     public int damage;
+
+    public float muzzleVelocity;
+
     public float firerate;
     public int maxAmmo;
-
     public float spread;
     public int palletAmount;
     public float timeBetweenShots;
     public float AdsSpeed;
+    public int AdsFOV;
     public enum shootingStyle
     {
         Single,

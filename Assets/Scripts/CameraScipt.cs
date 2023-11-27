@@ -17,15 +17,30 @@ public class CameraScipt : MonoBehaviour
         mainCam= GetComponent<Camera>();
     }
     // Update is called once per frame
+    public void FOVchange(BaseWeapon currentWeapon, bool isAiming)
+    {
+        if(isAiming == true)
+        {
+            FOVchange(currentWeapon.AdsFOV, currentWeapon.AdsSpeed);
+        }
+        else
+        {
+            if(mainCam.fieldOfView != 60)
+            {
+                FOVchange(60, currentWeapon.AdsSpeed);
+            }
+
+        }
+    }
     public void FOVchange(float newFOV, float timeToChange)
     {
-        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newFOV, timeToChange * Time.deltaTime);
+        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newFOV, 10 / timeToChange * Time.deltaTime);
     }
     public void Shake(BaseWeapon currentWeapon)
     {
         Shake(currentWeapon.weaponKick);
     }
-    public void Shake(float strength)
+    void Shake(float strength)
     {
         StartCoroutine(PerformSimpleShake(strength));
     }

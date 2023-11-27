@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 6152902767076222029, guid: 32391c8301a148c488cacbc4ca25e2a8, type: 3}
   damage: 30
+  muzzleVelocity: 487
   firerate: 100
   maxAmmo: 8
   spread: 0.06
   palletAmount: 6
   timeBetweenShots: 0
   AdsSpeed: 0
+  AdsFOV: 0
   fireType: 3
   inventorySlot: 0
   reloadTime: 1

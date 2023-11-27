@@ -1,3 +1,4 @@
+using DesignPatterns.ObjectPool;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,9 @@ public class PlayerBaseScript : MonoBehaviour
     public void addWeapon(ShootSystem gun)
     {
         gun.shootObserver += cameraShake.Shake;
+        //gun.shootObserver += cameraShake.FOVchange;
         gun.shootObserver += audioManager.PlayShootSound;
+
+        gun.adsObserver += cameraShake.FOVchange;
     }
 }

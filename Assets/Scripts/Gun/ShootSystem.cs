@@ -1,3 +1,4 @@
+using DesignPatterns.ObjectPool;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -25,9 +26,15 @@ public class ShootSystem : MonoBehaviour
     private bool shellEjected;
     public GameObject bulletHole;
 
-    public float adsSpeed;
-
+    float adsSpeed;
     public System.Action<BaseWeapon> shootObserver;
+    public System.Action<BaseWeapon, bool> adsObserver;
+
+    private LayerMask layerMaskIgnore;
+    
+    ProjectileManager projectileManager;
+
+
     private void Start()
     {
         crosshair = GameObject.Find("Crosshair");
@@ -35,29 +42,34 @@ public class ShootSystem : MonoBehaviour
         ammoCounter = GetComponentInChildren<AmmoCounter>();
         readyToShoot = true;
         isReloading = false;
+        layerMaskIgnore.value = 255;
+        projectileManager = GetComponent<ProjectileManager>();
     }
     // Update is called once per frame
     void Update()
     {
+
         HandleShooting();
         HandleADS();
         currentWeapon = GetComponentInParent<WeaponInventory>().currentEquiped;
-        
+        adsSpeed = 10/currentWeapon.AdsSpeed * Time.deltaTime;
     }
     private void HandleADS()
     {
         isAiming = Input.GetMouseButton(1);
         if(isAiming)
         {
-            transform.localPosition = Vector3.Slerp(transform.localPosition, aimpoint, adsSpeed * Time.deltaTime);
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, aimRotation, adsSpeed * Time.deltaTime);
+            transform.localPosition = Vector3.Slerp(transform.localPosition, aimpoint, adsSpeed);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, aimRotation, adsSpeed);
             //cameraScript.FOVchange(30, adsSpeed);
+            adsObserver.Invoke(currentWeapon,true);
             crosshair.SetActive(false);
         }
         else
         {
-            transform.localPosition = Vector3.Slerp(transform.localPosition, Vector3.zero, adsSpeed * Time.deltaTime);
+            transform.localPosition = Vector3.Slerp(transform.localPosition, Vector3.zero, adsSpeed);
             //cameraScript.FOVchange(60,adsSpeed);
+            adsObserver.Invoke(currentWeapon, false);
             crosshair.SetActive(true);
         }
     }
@@ -91,6 +103,7 @@ public class ShootSystem : MonoBehaviour
 
     private void Shoot()
     {
+
         readyToShoot = false;
 
         shellEjected = false;
@@ -105,10 +118,9 @@ public class ShootSystem : MonoBehaviour
 
             //direction = forward of where my cam is + Random(x axis of my camera) + Random(y axis of my camera)
             Vector3 direction = mainCam.transform.forward + mainCam.transform.right * x + mainCam.transform.up*y;
-     
-           
 
-            if (Physics.Raycast(mainCam.transform.position, direction, out hit, 100))
+
+            if (Physics.Raycast(mainCam.transform.position, direction, out hit, 100, layerMaskIgnore))
             {
                 //Crate c = hit.transform.GetComponent<Crate>();
                 //c.OnDamaged(10);
@@ -130,11 +142,8 @@ public class ShootSystem : MonoBehaviour
             //hit normal makes it face upwards no matter the angle
             Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
         }
-
-        //play sound
-        Debug.Log(currentWeapon);
         shootObserver.Invoke(currentWeapon);
-
+        projectileManager.shootProjectile(currentWeapon);
         Invoke("gunReadyFire", (float)(60/currentWeapon.firerate));
 
 

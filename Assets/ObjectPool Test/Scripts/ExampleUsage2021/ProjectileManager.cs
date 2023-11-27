@@ -3,12 +3,10 @@ using UnityEngine.Pool;
 
 namespace DesignPatterns.ObjectPool
 {
-    public class RevisedGun : MonoBehaviour
+    public class ProjectileManager : MonoBehaviour
     {
         [Tooltip("Prefab to shoot")]
         [SerializeField] private RevisedProjectile projectilePrefab;
-        [Tooltip("Projectile force")]
-        [SerializeField] private float muzzleVelocity = 700f;
         [Tooltip("End point of gun where shots appear")]
         [SerializeField] private Transform muzzlePosition;
         [Tooltip("Time between shots / smaller = higher rate of fire")]
@@ -25,9 +23,13 @@ namespace DesignPatterns.ObjectPool
         [SerializeField] private int maxSize = 100;
 
         private float nextTimeToShoot;
+        private Camera mainCam;
 
+        GameObject objectPoolParent;
         private void Awake()
         {
+            objectPoolParent = GameObject.Find("ObjectPool");
+            mainCam = GetComponentInParent<Camera>();
             objectPool = new ObjectPool<RevisedProjectile>(CreateProjectile,
                 OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
                 collectionCheck, defaultCapacity, maxSize);
@@ -37,6 +39,7 @@ namespace DesignPatterns.ObjectPool
         private RevisedProjectile CreateProjectile()
         {
             RevisedProjectile projectileInstance = Instantiate(projectilePrefab);
+            projectileInstance.transform.parent = objectPoolParent.transform;
             projectileInstance.ObjectPool = objectPool;
             return projectileInstance;
         }
@@ -58,32 +61,29 @@ namespace DesignPatterns.ObjectPool
         {
             Destroy(pooledObject.gameObject);
         }
-
         private void FixedUpdate()
         {
-            // shoot if we have exceeded delay
-            if (Input.GetButton("Fire1") && Time.time > nextTimeToShoot && objectPool != null)
-            {
 
-                // get a pooled object instead of instantiating
-                RevisedProjectile bulletObject = objectPool.Get();
+        }
+        public void shootProjectile(BaseWeapon currentWeapon)
+        {
+            // get a pooled object instead of instantiating
+            RevisedProjectile bulletObject = objectPool.Get();
 
-                if (bulletObject == null)
-                    return;
+            if (bulletObject == null)
+                return;
 
-                // align to gun barrel/muzzle position
-                bulletObject.transform.SetPositionAndRotation(muzzlePosition.position, muzzlePosition.rotation);
+            // align to gun barrel/muzzle position
+            bulletObject.transform.SetPositionAndRotation(muzzlePosition.position, Quaternion.LookRotation(mainCam.transform.forward));
 
-                // move projectile forward
-                bulletObject.GetComponent<Rigidbody>().AddForce(bulletObject.transform.forward * muzzleVelocity, ForceMode.Acceleration);
+            // move projectile forward
+            bulletObject.GetComponent<Rigidbody>().AddForce(bulletObject.transform.forward * currentWeapon.muzzleVelocity, ForceMode.Acceleration);
 
-                // turn off after a few seconds
-                bulletObject.Deactivate();
+            // turn off after a few seconds
+            bulletObject.Deactivate();
 
-                // set cooldown delay
-                nextTimeToShoot = Time.time + cooldownWindow;
-
-            }
+            // set cooldown delay
+            nextTimeToShoot = Time.time + cooldownWindow;
         }
     }
 }

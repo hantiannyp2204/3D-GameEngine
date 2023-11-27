@@ -33,5 +33,13 @@ namespace DesignPatterns.ObjectPool
             // release the projectile back to the pool
             objectPool.Release(this);
         }
+        private void OnTriggerEnter(Collider collison)
+        {
+            if(!collison.gameObject.CompareTag("Bullet"))
+            {
+                gameObject.SetActive(false);
+            }
+
+        }
     }
 }
