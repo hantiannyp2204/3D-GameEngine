@@ -20,8 +20,8 @@ MonoBehaviour:
   spread: 0.06
   palletAmount: 6
   timeBetweenShots: 0
-  AdsSpeed: 0
-  AdsFOV: 0
+  AdsSpeed: 0.5
+  AdsFOV: 30
   fireType: 3
   inventorySlot: 0
   reloadTime: 1

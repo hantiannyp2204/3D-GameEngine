@@ -27,7 +27,7 @@ public class CameraScipt : MonoBehaviour
         {
             if(mainCam.fieldOfView != 60)
             {
-                FOVchange(60, currentWeapon.AdsSpeed);
+                mainCam.fieldOfView = 60;
             }
 
         }
@@ -36,7 +36,7 @@ public class CameraScipt : MonoBehaviour
     {
         mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newFOV, 10 / timeToChange * Time.deltaTime);
     }
-    public void Shake(BaseWeapon currentWeapon)
+    public void Shake(BaseWeapon currentWeapon, Transform muzzleFlash)
     {
         Shake(currentWeapon.weaponKick);
     }

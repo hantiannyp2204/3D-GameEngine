@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 557668880607436969}
-  m_LocalRotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 99.99999, y: 99.99999, z: 99.99999}
   m_ConstrainProportionsScale: 0
@@ -114,9 +114,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isReloading: 0
-  aimpoint: {x: 0, y: 0, z: 0}
-  aimRotation: {x: 0, y: 0, z: 0, w: 0}
+  aimpoint: {x: 0.13, y: 0.1, z: -0.3}
+  aimRotation: {x: 0, y: 0, z: 0.0008726948, w: 0.99999964}
   bulletHole: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
+  muzleFlashTransform: {fileID: 1686629051888647657}
 --- !u!114 &8913880959619317832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,8 +131,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 4673529153738011617, guid: d5fbbf70070ae614c9aa18bcbc81eb01, type: 3}
-  muzzlePosition: {fileID: 1686629051888647657}
-  cooldownWindow: 0.1
   collectionCheck: 1
   defaultCapacity: 10
   maxSize: 10

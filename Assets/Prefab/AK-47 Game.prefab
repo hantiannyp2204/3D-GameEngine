@@ -50,7 +50,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2511436525561025728}
   - component: {fileID: 3479388568619933904}
-  - component: {fileID: 8970629466445405807}
   m_Layer: 0
   m_Name: AK-47 Game
   m_TagString: Untagged
@@ -91,24 +90,7 @@ MonoBehaviour:
   aimpoint: {x: 0.33, y: 0.082, z: -0.3}
   aimRotation: {x: 0, y: 0, z: 0.013089596, w: 0.99991435}
   bulletHole: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
---- !u!114 &8970629466445405807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5554275427463300070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9c5520392f314a42b7019eca1f7194b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 4673529153738011617, guid: d5fbbf70070ae614c9aa18bcbc81eb01, type: 3}
-  muzzlePosition: {fileID: 4223775208259317776}
-  cooldownWindow: 0.1
-  collectionCheck: 1
-  defaultCapacity: 5
-  maxSize: 5
+  muzleFlashTransform: {fileID: 4223775208259317776}
 --- !u!1 &9027322747807378287
 GameObject:
   m_ObjectHideFlags: 0

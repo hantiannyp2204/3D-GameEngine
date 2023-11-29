@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6152902767078521902}
   - component: {fileID: 6152902767076222029}
   - component: {fileID: 6152902767076222028}
-  - component: {fileID: -5513063309522705801}
   m_Layer: 0
   m_Name: 870_Shotgun Game
   m_TagString: Untagged
@@ -28,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6152902767076254446}
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -100,9 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isReloading: 0
-  aimpoint: {x: 0, y: 0, z: 0}
-  aimRotation: {x: 0, y: 0, z: 0, w: 0}
+  aimpoint: {x: 0.33, y: 0.082, z: -0.3}
+  aimRotation: {x: 0, y: 0, z: 0.013089596, w: 0.99991435}
   bulletHole: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
+  muzleFlashTransform: {fileID: 7000818441826746258}
 --- !u!114 &6152902767076222028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,24 +117,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAmmo: 0
   currentPallet: 0
---- !u!114 &-5513063309522705801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6152902767076254446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9c5520392f314a42b7019eca1f7194b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 4673529153738011617, guid: d5fbbf70070ae614c9aa18bcbc81eb01, type: 3}
-  muzzlePosition: {fileID: 7000818441826746258}
-  cooldownWindow: 0.1
-  collectionCheck: 1
-  defaultCapacity: 10
-  maxSize: 10
 --- !u!1 &8575443901446049549
 GameObject:
   m_ObjectHideFlags: 0

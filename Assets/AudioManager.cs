@@ -6,7 +6,7 @@ public class AudioManager : MonoBehaviour
 {
     [SerializeField]
     private AudioSource audioSource;
-    public void PlayShootSound(BaseWeapon currentWeapon)
+    public void PlayShootSound(BaseWeapon currentWeapon,Transform muzzlePos)
     {
         audioSource.PlayOneShot(currentWeapon.weaponSound);
     }

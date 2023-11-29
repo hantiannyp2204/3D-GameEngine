@@ -27,13 +27,14 @@ public class ShootSystem : MonoBehaviour
     public GameObject bulletHole;
 
     float adsSpeed;
-    public System.Action<BaseWeapon> shootObserver;
+    public System.Action<BaseWeapon,Transform> shootObserver;
     public System.Action<BaseWeapon, bool> adsObserver;
 
     private LayerMask layerMaskIgnore;
     
     ProjectileManager projectileManager;
 
+    public Transform muzleFlashTransform;
 
     private void Start()
     {
@@ -142,8 +143,7 @@ public class ShootSystem : MonoBehaviour
             //hit normal makes it face upwards no matter the angle
             Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
         }
-        shootObserver.Invoke(currentWeapon);
-        projectileManager.shootProjectile(currentWeapon);
+        shootObserver.Invoke(currentWeapon,muzleFlashTransform);
         Invoke("gunReadyFire", (float)(60/currentWeapon.firerate));
 
 

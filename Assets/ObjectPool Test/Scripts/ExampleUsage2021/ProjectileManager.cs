@@ -7,10 +7,6 @@ namespace DesignPatterns.ObjectPool
     {
         [Tooltip("Prefab to shoot")]
         [SerializeField] private RevisedProjectile projectilePrefab;
-        [Tooltip("End point of gun where shots appear")]
-        [SerializeField] private Transform muzzlePosition;
-        [Tooltip("Time between shots / smaller = higher rate of fire")]
-        [SerializeField] private float cooldownWindow = 0.1f;
 
         // stack-based ObjectPool available with Unity 2021 and above
         private IObjectPool<RevisedProjectile> objectPool;
@@ -19,17 +15,13 @@ namespace DesignPatterns.ObjectPool
         [SerializeField] private bool collectionCheck = true;
 
         // extra options to control the pool capacity and maximum size
-        [SerializeField] private int defaultCapacity = 20;
-        [SerializeField] private int maxSize = 100;
+        [SerializeField] private int defaultCapacity;
+        [SerializeField] private int maxSize;
 
         private float nextTimeToShoot;
-        private Camera mainCam;
 
-        GameObject objectPoolParent;
         private void Awake()
         {
-            objectPoolParent = GameObject.Find("ObjectPool");
-            mainCam = GetComponentInParent<Camera>();
             objectPool = new ObjectPool<RevisedProjectile>(CreateProjectile,
                 OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject,
                 collectionCheck, defaultCapacity, maxSize);
@@ -39,7 +31,7 @@ namespace DesignPatterns.ObjectPool
         private RevisedProjectile CreateProjectile()
         {
             RevisedProjectile projectileInstance = Instantiate(projectilePrefab);
-            projectileInstance.transform.parent = objectPoolParent.transform;
+            projectileInstance.transform.parent = this.transform;
             projectileInstance.ObjectPool = objectPool;
             return projectileInstance;
         }
@@ -61,11 +53,7 @@ namespace DesignPatterns.ObjectPool
         {
             Destroy(pooledObject.gameObject);
         }
-        private void FixedUpdate()
-        {
-
-        }
-        public void shootProjectile(BaseWeapon currentWeapon)
+        public void shootProjectile(BaseWeapon currentWeapon,Transform muzzlePos)
         {
             // get a pooled object instead of instantiating
             RevisedProjectile bulletObject = objectPool.Get();
@@ -74,7 +62,7 @@ namespace DesignPatterns.ObjectPool
                 return;
 
             // align to gun barrel/muzzle position
-            bulletObject.transform.SetPositionAndRotation(muzzlePosition.position, Quaternion.LookRotation(mainCam.transform.forward));
+            bulletObject.transform.SetPositionAndRotation(muzzlePos.position, Quaternion.LookRotation(-muzzlePos.transform.right));
 
             // move projectile forward
             bulletObject.GetComponent<Rigidbody>().AddForce(bulletObject.transform.forward * currentWeapon.muzzleVelocity, ForceMode.Acceleration);
@@ -82,8 +70,6 @@ namespace DesignPatterns.ObjectPool
             // turn off after a few seconds
             bulletObject.Deactivate();
 
-            // set cooldown delay
-            nextTimeToShoot = Time.time + cooldownWindow;
         }
     }
 }
