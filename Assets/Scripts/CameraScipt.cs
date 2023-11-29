@@ -27,7 +27,7 @@ public class CameraScipt : MonoBehaviour
         {
             if(mainCam.fieldOfView != 60)
             {
-                mainCam.fieldOfView = 60;
+                FOVchange(60, 0.3f);
             }
 
         }

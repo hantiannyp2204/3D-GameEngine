@@ -16,17 +16,20 @@ public class PlayerBaseScript : MonoBehaviour
     EffectsManager effects;
     [SerializeField]
     ProjectileManager bulletFx;
+    [SerializeField]
+    RecoilSystem recoilSystem;
     private void Start()
     {
         inventory.OnAddWeapon += addWeapon;
     }
     public void addWeapon(ShootSystem gun)
     {
-        gun.shootObserver = cameraShake.Shake;
+        gun.shootObserver += cameraShake.Shake;
         //gun.shootObserver += cameraShake.FOVchange;
         gun.shootObserver += audioManager.PlayShootSound;
         gun.shootObserver += effects.PlayParticle;
         gun.shootObserver += bulletFx.shootProjectile;
+        gun.shootObserver += recoilSystem.RecoilFire;
 
         gun.adsObserver += cameraShake.FOVchange;
     }
