@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbb412837fd20408db82a5931a8f7cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 8402172112654882828}
   timeoutDelay: 3
 --- !u!65 &4312454161458992305
 BoxCollider:
@@ -117,7 +118,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8402172112652879564}
-  m_Mesh: {fileID: 4300002, guid: dac2420a19d8c8e46b7d36c8e3817523, type: 3}
+  m_Mesh: {fileID: 4300002, guid: 68147b30e5ff1c547a6be83146252f11, type: 3}
 --- !u!23 &8402172112654882828
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -138,7 +139,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 530af3a8082ffb14897ac6b74259b8a1, type: 2}
+  - {fileID: 2100000, guid: 489e81d422a752345ad4f0524dc8887f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

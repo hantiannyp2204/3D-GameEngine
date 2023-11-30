@@ -28,6 +28,7 @@ public class ShootSystem : MonoBehaviour
 
     float adsSpeed;
     public System.Action<BaseWeapon,Transform> shootObserver;
+    public System.Action<BaseWeapon, Transform> bulletRendererObserver;
     public System.Action<BaseWeapon, bool> adsObserver;
 
     private LayerMask layerMaskIgnore;
@@ -138,7 +139,7 @@ public class ShootSystem : MonoBehaviour
             {
                 shellEjected = true;
             }
-
+            bulletRendererObserver.Invoke(currentWeapon, muzleFlashTransform);
             //Quaternion.LookRotation(hit.normal) means where ever i am looking at's rotation
             //hit normal makes it face upwards no matter the angle
             Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));

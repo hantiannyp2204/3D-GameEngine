@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     public MovementState state;
     public enum MovementState
     {
+        idle,
         walking,
         sprinting,
         wallrunning,
@@ -172,7 +173,15 @@ public class PlayerMovement : MonoBehaviour
         // Mode - Walking
         else if (grounded)
         {
-            state = MovementState.walking;
+            if(rb.velocity == Vector3.zero)
+            {
+                state = MovementState.idle;
+            }
+            else
+            {
+                state = MovementState.walking;
+            
+            }
             desiredMoveSpeed = walkSpeed;
         }
 

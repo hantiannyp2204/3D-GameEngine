@@ -28,8 +28,9 @@ public class PlayerBaseScript : MonoBehaviour
         //gun.shootObserver += cameraShake.FOVchange;
         gun.shootObserver += audioManager.PlayShootSound;
         gun.shootObserver += effects.PlayParticle;
-        gun.shootObserver += bulletFx.shootProjectile;
         gun.shootObserver += recoilSystem.RecoilFire;
+
+        gun.bulletRendererObserver += bulletFx.shootProjectile;
 
         gun.adsObserver += cameraShake.FOVchange;
     }
