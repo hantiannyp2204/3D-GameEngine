@@ -52,11 +52,23 @@ public class WeaponInventory : MonoBehaviour
         {
             switchWeapon(inventorySlot.Secondary);
         }
+
+    }
+    public void DropWeapon()
+    {
+        currentEquiped = null;
+        spawnedWeaponPrefab[(int)currentInventorySlot] = null;
+        inventory[(int)currentInventorySlot] = null;
+    }
+    public void PickUpWeapon(BaseWeapon weapon, ShootSystem weaponShootSystem)
+    {
+        currentEquiped = weapon;
+        inventory[(int)weapon.inventorySlot] = weapon;
+        spawnedWeaponPrefab[(int)weapon.inventorySlot] = weaponShootSystem;
+        updateCurrentEquipedIndex();
     }
     void updateCurrentEquipedIndex()
     {
- 
-
         //prevent game from crashing as scrip is trying to get current equip even tho it don't exist
         if (currentEquiped == null)
         {
@@ -111,12 +123,8 @@ public class WeaponInventory : MonoBehaviour
             spawnedWeaponPrefab[(int)switchIndex].gameObject.SetActive(true);
         }
     }
-
     public void addWeapon(BaseWeapon newWeapon)
     {
-
-
-
         //replace if weapon already exist
         if (inventory[(int)newWeapon.inventorySlot] != null)
         {

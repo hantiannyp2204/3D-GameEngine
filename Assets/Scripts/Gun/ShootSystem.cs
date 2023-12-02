@@ -8,14 +8,14 @@ using UnityEngine;
 
 public class ShootSystem : MonoBehaviour
 {
-
     private Camera mainCam;
 
     private BaseWeapon currentWeapon;
 
     private AmmoCounter ammoCounter;
 
-    private bool readyToShoot, isShooting, isAiming;
+    public bool isShooting;
+    private bool readyToShoot, isAiming;
     
     public bool isReloading;
 
@@ -28,33 +28,39 @@ public class ShootSystem : MonoBehaviour
 
     float adsSpeed;
     public System.Action<BaseWeapon,Transform> shootObserver;
-    public System.Action<BaseWeapon, Transform> bulletRendererObserver;
+    public System.Action<BaseWeapon, Transform, Vector3> bulletRendererObserver;
     public System.Action<BaseWeapon, bool> adsObserver;
+    public System.Action<BaseWeapon, Transform, bool> adsShootObserver;
 
     private LayerMask layerMaskIgnore;
     
     ProjectileManager projectileManager;
-
     public Transform muzleFlashTransform;
 
+    DropSystem dropSystem;
     private void Start()
     {
+        dropSystem = GetComponent<DropSystem>();
         crosshair = GameObject.Find("Crosshair");
         mainCam = GetComponentInParent<Camera>();
         ammoCounter = GetComponentInChildren<AmmoCounter>();
+        projectileManager = GetComponent<ProjectileManager>();
+
         readyToShoot = true;
         isReloading = false;
         layerMaskIgnore.value = 255;
-        projectileManager = GetComponent<ProjectileManager>();
     }
     // Update is called once per frame
     void Update()
     {
 
-        HandleShooting();
+        HandleButtonPresses();
         HandleADS();
-        currentWeapon = GetComponentInParent<WeaponInventory>().currentEquiped;
-        adsSpeed = 10/currentWeapon.AdsSpeed * Time.deltaTime;
+        if (GetComponentInParent<WeaponInventory>() != null)
+        {
+            currentWeapon = GetComponentInParent<WeaponInventory>().currentEquiped;
+            adsSpeed = 10 / currentWeapon.AdsSpeed * Time.deltaTime;
+        }
     }
     private void HandleADS()
     {
@@ -63,19 +69,17 @@ public class ShootSystem : MonoBehaviour
         {
             transform.localPosition = Vector3.Slerp(transform.localPosition, aimpoint, adsSpeed);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, aimRotation, adsSpeed);
-            //cameraScript.FOVchange(30, adsSpeed);
             adsObserver.Invoke(currentWeapon,true);
             crosshair.SetActive(false);
         }
         else
         {
             transform.localPosition = Vector3.Slerp(transform.localPosition, Vector3.zero, adsSpeed);
-            //cameraScript.FOVchange(60,adsSpeed);
             adsObserver.Invoke(currentWeapon, false);
             crosshair.SetActive(true);
         }
     }
-    private void HandleShooting()
+    private void HandleButtonPresses()
     {
         if(currentWeapon !=null)
         {
@@ -100,8 +104,13 @@ public class ShootSystem : MonoBehaviour
             isReloading = true;
             Invoke("Reload", currentWeapon.reloadTime);
         }
-        
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            dropSystem.DropWeapon();
+        }
     }
+
+
 
     private void Shoot()
     {
@@ -127,6 +136,10 @@ public class ShootSystem : MonoBehaviour
                 //Crate c = hit.transform.GetComponent<Crate>();
                 //c.OnDamaged(10);
                 Debug.Log("hit");
+
+                //Quaternion.LookRotation(hit.normal) means where ever i am looking at's rotation
+                //hit normal makes it face upwards no matter the angle  
+                Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
             }
 
 
@@ -139,11 +152,21 @@ public class ShootSystem : MonoBehaviour
             {
                 shellEjected = true;
             }
-            bulletRendererObserver.Invoke(currentWeapon, muzleFlashTransform);
-            //Quaternion.LookRotation(hit.normal) means where ever i am looking at's rotation
-            //hit normal makes it face upwards no matter the angle
-            Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
+            bulletRendererObserver.Invoke(currentWeapon, muzleFlashTransform, direction);
+
+
+
+
         }
+        if (isAiming == true)
+        {
+            adsShootObserver.Invoke(currentWeapon, muzleFlashTransform, true);
+        }
+        else
+        {
+            adsShootObserver.Invoke(currentWeapon, muzleFlashTransform, false);
+        }
+
         shootObserver.Invoke(currentWeapon,muzleFlashTransform);
         Invoke("gunReadyFire", (float)(60/currentWeapon.firerate));
 

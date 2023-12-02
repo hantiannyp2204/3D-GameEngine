@@ -16,6 +16,8 @@ public class RecoilSystem : MonoBehaviour
     //settings
     [SerializeField] private float snappiness;
     [SerializeField] private float returnSpeed;
+
+    float recoilMultiplier;
     // Start is called before the first frame update
 
     // Update is called once per frame
@@ -25,9 +27,20 @@ public class RecoilSystem : MonoBehaviour
         currentRotation= Vector3.Slerp(currentRotation,targetRotation,snappiness * Time.fixedDeltaTime);
         transform.localRotation = Quaternion.Euler(currentRotation);
     }
-    public void RecoilFire(BaseWeapon currentWeapon, Transform muzzlePos)
+    public void RecoilFire(BaseWeapon currentWeapon, Transform muzzlePos, bool isAiming)
     {
-        Debug.Log("SHAKE");
-        targetRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
+        recoilX = currentWeapon.recoilSpread.x;
+        recoilY = currentWeapon.recoilSpread.y;
+        recoilZ = currentWeapon.recoilSpread.z;
+
+        if(isAiming == true)
+        {
+            recoilMultiplier = 0.4f;
+        }
+        else
+        {
+            recoilMultiplier = 1;
+        }
+        targetRotation -= new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ))* recoilMultiplier;
     }
 }

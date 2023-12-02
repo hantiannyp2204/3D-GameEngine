@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class PlayerBaseScript : MonoBehaviour
 {
-
     [SerializeField]
     WeaponInventory inventory;
     [SerializeField]
-    CameraScipt cameraShake;
+    CameraScipt cameraManager;
     [SerializeField]
     AudioManager audioManager;
     [SerializeField]
@@ -24,14 +23,14 @@ public class PlayerBaseScript : MonoBehaviour
     }
     public void addWeapon(ShootSystem gun)
     {
-        gun.shootObserver += cameraShake.Shake;
-        //gun.shootObserver += cameraShake.FOVchange;
+        gun.shootObserver += cameraManager.Shake;
         gun.shootObserver += audioManager.PlayShootSound;
         gun.shootObserver += effects.PlayParticle;
-        gun.shootObserver += recoilSystem.RecoilFire;
+
+        gun.adsShootObserver += recoilSystem.RecoilFire;
 
         gun.bulletRendererObserver += bulletFx.shootProjectile;
 
-        gun.adsObserver += cameraShake.FOVchange;
+        gun.adsObserver += cameraManager.FOVchange;
     }
 }

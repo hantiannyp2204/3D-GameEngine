@@ -19,6 +19,8 @@ public class BaseWeapon : ScriptableObject
     public float timeBetweenShots;
     public float AdsSpeed;
     public int AdsFOV;
+
+    public Vector3 recoilSpread;
     public enum shootingStyle
     {
         Single,

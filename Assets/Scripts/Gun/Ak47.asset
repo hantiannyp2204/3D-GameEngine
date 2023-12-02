@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 3479388568619933904, guid: 341d9ee2a09d45849a72c5485f1e3c8b, type: 3}
   damage: 0
-  muzzlePositon: {x: 0, y: 0, z: 0}
   muzzleVelocity: 730
   firerate: 600
   maxAmmo: 30
@@ -23,6 +22,7 @@ MonoBehaviour:
   timeBetweenShots: 0
   AdsSpeed: 0.5
   AdsFOV: 30
+  recoilSpread: {x: 2, y: 2, z: 0.85}
   fireType: 1
   inventorySlot: 0
   reloadTime: 2.7

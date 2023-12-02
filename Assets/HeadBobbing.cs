@@ -1,61 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HeadBobbing : MonoBehaviour
 {
     [SerializeField] private bool enable = true;
-    [SerializeField,Range(0,10)] private float amplitude = 0.0015f;
-    [SerializeField, Range(0, 30)] private float frequency = 10;
+    [SerializeField,Range(0,10)] private float amplitude = 1.5f;
+    [SerializeField, Range(0, 30)] private float Defaultfrequency = 10;
 
     [SerializeField] private Transform camera = null;
     [SerializeField] private Transform camHolder = null;
+    [SerializeField] private Transform bobStabliser = null;
+    private WeaponInventory weaponInventory;
 
     private float toggleSpeed = 3;
     private Vector3 startingPos;
     private PlayerMovement playerMovement;
+
+    Rigidbody rb;
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
+        weaponInventory = GetComponent<WeaponInventory>();
         startingPos = camera.localPosition;
     }
     private void Update()
     {
         if(enable == true)
-        {
+        {   
             CheckMotion();
- 
+            bobStabliser.LookAt(FocusTarget());
 
         }
+        ResetPosition();
     }
-    private Vector3 walkingBob(bool sprinting)
+    private Vector3 walkingBob(float multiplier, float frequencyMultiplier)
     {
         Vector3 pos = Vector3.zero;
-        float sprintMultiplier;
-        if(sprinting == true)
-        {
-            sprintMultiplier = 1.5f;
-        }
-        else
-        {
-            sprintMultiplier = 1;
-        }
-        pos.y += Mathf.Sin(Time.time * frequency * sprintMultiplier) * (amplitude * sprintMultiplier / 1000); 
-        pos.x += Mathf.Cos(Time.time * frequency/2 * sprintMultiplier) * (amplitude * sprintMultiplier / 1000)/2;
+        pos.y += Mathf.Sin(Time.time * (Defaultfrequency * frequencyMultiplier) * multiplier) * (amplitude * multiplier / 50); 
+        pos.x += Mathf.Cos(Time.time * (Defaultfrequency * frequencyMultiplier) / 2 * multiplier) * (amplitude * multiplier / 50)/2;
 
         return pos;
     }
     void CheckMotion()
     {
-        ResetPosition();
-        if (playerMovement.state == PlayerMovement.MovementState.walking)
+  
+
+        if(rb.velocity != Vector3.zero)
         {
-            PlayMotion(walkingBob(false));
+            switch (playerMovement.state)
+            {
+                case PlayerMovement.MovementState.walking:
+                    PlayMotion(walkingBob(1,1));
+                    break;
+                case PlayerMovement.MovementState.sprinting:
+                    PlayMotion(walkingBob(1.5f, 1));
+                    break;
+                case PlayerMovement.MovementState.wallrunning:
+                    PlayMotion(walkingBob(1.5f, 1));
+                    break;
+                case PlayerMovement.MovementState.crouching:
+                    PlayMotion(walkingBob(0.5f, 1));
+                    break;
+                case PlayerMovement.MovementState.proning:
+                    PlayMotion(walkingBob(2, 0.5f));
+                    break;
+                case PlayerMovement.MovementState.sliding:
+                    break;
+            }
         }
-        else if(playerMovement.state == PlayerMovement.MovementState.sprinting)
-        {
-            PlayMotion(walkingBob(true));
-        }
+    
+
     }
     void ResetPosition()
     {
@@ -68,5 +85,11 @@ public class HeadBobbing : MonoBehaviour
     void PlayMotion(Vector3 motion)
     {
         camera.localPosition += motion;
+    }
+    Vector3 FocusTarget()
+    {
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y + camHolder.localPosition.y, transform.position.z);
+        pos += camHolder.forward * 15;
+        return pos;
     }
 }

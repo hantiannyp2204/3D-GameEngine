@@ -30,13 +30,19 @@ public class PlayerMovement : MonoBehaviour
     private float startYScale;
     private Vector3 camStartPos;
 
+    [Header("Prone")]
+    public float proneSpeed;
+    private bool isProning = false;
+    
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.LeftControl;
+    public KeyCode proneKey = KeyCode.Z;
 
     [Header("Ground Check")]
     public float playerHeight;
+    private float playerStartHeight;
     public LayerMask whatIsGround;
     bool grounded;
 
@@ -59,11 +65,11 @@ public class PlayerMovement : MonoBehaviour
     public MovementState state;
     public enum MovementState
     {
-        idle,
         walking,
         sprinting,
         wallrunning,
         crouching,
+        proning,
         sliding,
         air
     }
@@ -78,7 +84,9 @@ public class PlayerMovement : MonoBehaviour
 
         readyToJump = true;
 
-        startYScale = PlayerRender.transform.localScale.y;
+        startYScale = 1;
+        playerHeight = 2;
+        playerStartHeight = playerHeight;
         camStartPos = camera.transform.localPosition;
     }
 
@@ -112,28 +120,46 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
-
+            isProning = false;
             Jump();
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
         // start crouch
-        if (Input.GetKeyDown(crouchKey))
+        if (state == MovementState.crouching)
         {
-            PlayerRender.transform.localScale = new Vector3(PlayerRender.transform.localScale.x, startYScale/2, PlayerRender.transform.localScale.z);
-            if(grounded)
+            playerHeight = playerStartHeight / 1.5f;
+            PlayerRender.transform.localScale = new Vector3(PlayerRender.transform.localScale.x, startYScale / 1.5f, PlayerRender.transform.localScale.z);
+            if (!grounded)
+            {
+                rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            }
+            camera.transform.localPosition = camStartPos * 0.5f ;
+            desiredMoveSpeed = crouchSpeed;
+        }
+
+        // start prone
+        else if (state == MovementState.proning)
+        {
+            playerHeight = playerStartHeight / 4;
+            PlayerRender.transform.localScale = new Vector3(PlayerRender.transform.localScale.x, startYScale / 4, PlayerRender.transform.localScale.z);
+            PlayerRender.GetComponent<CapsuleCollider>().radius = 0.25f;
+            if (!grounded)
             {
                 rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             }
             camera.transform.localPosition = Vector3.zero;
+            desiredMoveSpeed = proneSpeed;
         }
-
-        // stop crouch
-        if (Input.GetKeyUp(crouchKey))
+        //neither prone or crouch
+        else
         {
+            PlayerRender.GetComponent<CapsuleCollider>().radius = 0.5f;
+            playerHeight = playerStartHeight;
             PlayerRender.transform.localScale = new Vector3(PlayerRender.transform.localScale.x, startYScale, PlayerRender.transform.localScale.z);
             camera.transform.localPosition = camStartPos;
+            desiredMoveSpeed = walkSpeed;   
         }
     }
 
@@ -160,11 +186,21 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKey(crouchKey))
         {
             state = MovementState.crouching;
-            desiredMoveSpeed = crouchSpeed;
+
+            isProning = false;
         }
 
+        // Mode - Proning
+        else if (Input.GetKeyDown(proneKey))
+        {
+            isProning = !isProning;
+        }
+        else if(isProning == true)
+        {
+            state = MovementState.proning;
+        }
         // Mode - Sprinting
-        else if(grounded && Input.GetKey(sprintKey))
+        else if(grounded && Input.GetKey(sprintKey) && isProning == false)
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -173,16 +209,8 @@ public class PlayerMovement : MonoBehaviour
         // Mode - Walking
         else if (grounded)
         {
-            if(rb.velocity == Vector3.zero)
-            {
-                state = MovementState.idle;
-            }
-            else
-            {
-                state = MovementState.walking;
-            
-            }
-            desiredMoveSpeed = walkSpeed;
+            state = MovementState.walking;
+
         }
 
         // Mode - Air
@@ -224,7 +252,10 @@ public class PlayerMovement : MonoBehaviour
                 time += Time.deltaTime * speedIncreaseMultiplier * slopeIncreaseMultiplier * slopeAngleIncrease;
             }
             else
+            {
                 time += Time.deltaTime * speedIncreaseMultiplier;
+            }
+                
 
             yield return null;
         }
@@ -235,8 +266,8 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         // calculate movement direction
-        moveDirection = camera.forward * verticalInput + camera.right * horizontalInput;
 
+        moveDirection = new Vector3(camera.forward.x * verticalInput + camera.right.x * horizontalInput,0, camera.forward.z * verticalInput + camera.right.z * horizontalInput);
         // on slope
         if (OnSlope() && !exitingSlope)
         {

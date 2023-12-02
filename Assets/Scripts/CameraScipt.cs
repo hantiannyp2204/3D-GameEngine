@@ -59,13 +59,8 @@ public class CameraScipt : MonoBehaviour
                 transform.localEulerAngles.y + UnityEngine.Random.Range(-1, 1) * strength,
                 transform.localEulerAngles. z + UnityEngine.Random.Range(-1, 1) * strength
             ));
-
-
             yield return null;
         }
-
-
-
     }
 
 }
