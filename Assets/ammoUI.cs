@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class ammoUI : MonoBehaviour
+public class ammoUI : UnityEngine.MonoBehaviour
 {
 
     [SerializeField]

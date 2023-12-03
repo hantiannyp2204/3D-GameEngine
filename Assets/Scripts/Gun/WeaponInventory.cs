@@ -4,10 +4,9 @@ using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class WeaponInventory : MonoBehaviour
+public class WeaponInventory : UnityEngine.MonoBehaviour
 {
     public System.Action<ShootSystem> OnAddWeapon;
-
 
     public BaseWeapon testSecondary,testPrimary;
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AmmoCounter : MonoBehaviour
+public class AmmoCounter : UnityEngine.MonoBehaviour
 {
     public int currentAmmo;
 

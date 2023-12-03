@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : UnityEngine.MonoBehaviour
 {
     [Header("Movement")]
     private float moveSpeed;
@@ -63,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     public MovementState state;
+
+    public System.Action<bool> runningObserver;
     public enum MovementState
     {
         walking,
@@ -160,6 +162,14 @@ public class PlayerMovement : MonoBehaviour
             PlayerRender.transform.localScale = new Vector3(PlayerRender.transform.localScale.x, startYScale, PlayerRender.transform.localScale.z);
             camera.transform.localPosition = camStartPos;
             desiredMoveSpeed = walkSpeed;   
+        }
+        if (state == MovementState.sprinting)
+        {
+            runningObserver.Invoke(true);
+        }
+        else
+        {
+            runningObserver.Invoke(false);
         }
     }
 

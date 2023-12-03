@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Ak47
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 3479388568619933904, guid: 341d9ee2a09d45849a72c5485f1e3c8b, type: 3}
-  damage: 0
-  muzzleVelocity: 730
+  damage: 10
+  weaponKnockback: 1
+  muzzleVelocity: 2395.01
   firerate: 600
   maxAmmo: 30
   spread: 0
@@ -23,6 +24,7 @@ MonoBehaviour:
   AdsSpeed: 0.5
   AdsFOV: 30
   recoilSpread: {x: 2, y: 2, z: 0.85}
+  isProjectile: 0
   fireType: 1
   inventorySlot: 0
   reloadTime: 2.7

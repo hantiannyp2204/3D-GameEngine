@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraScipt : MonoBehaviour
+public class CameraScipt : UnityEngine.MonoBehaviour
 {
     public float shakedDuration;
 
@@ -30,6 +30,20 @@ public class CameraScipt : MonoBehaviour
                 FOVchange(60, 0.3f);
             }
 
+        }
+    }
+    public void FOVSprinting(bool isSprinting)
+    {
+        if (isSprinting == true)
+        {
+            FOVchange(75, 0.3f);
+        }
+        else
+        {
+            if (mainCam.fieldOfView != 60)
+            {
+                FOVchange(60, 0.3f);
+            }
         }
     }
     public void FOVchange(float newFOV, float timeToChange)

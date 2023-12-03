@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SciptableStupid : MonoBehaviour
+public class SciptableStupid : UnityEngine.MonoBehaviour
 {
     public GameObject weaponPrefab;
     public int damage;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class HeadBobbing : MonoBehaviour
+public class HeadBobbing : UnityEngine.MonoBehaviour
 {
     [SerializeField] private bool enable = true;
     [SerializeField,Range(0,10)] private float amplitude = 1.5f;
@@ -66,8 +66,9 @@ public class HeadBobbing : MonoBehaviour
                     break;
                 case PlayerMovement.MovementState.proning:
                     PlayMotion(walkingBob(2, 0.5f));
-                    break;
-                case PlayerMovement.MovementState.sliding:
+                    break;  
+                default:
+                    PlayMotion(walkingBob(0, 0));
                     break;
             }
         }

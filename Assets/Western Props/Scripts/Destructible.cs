@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Destructible : MonoBehaviour {
+public class Destructible : UnityEngine.MonoBehaviour {
 
 	public GameObject destroyedVersion;	// Reference to the shattered version of the object
 

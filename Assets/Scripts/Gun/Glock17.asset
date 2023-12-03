@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Glock17
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 3071436251558113457, guid: 52859071482835e4b83e1adbdd25e055, type: 3}
-  damage: 20
-  muzzleVelocity: 370
+  damage: 22
+  weaponKnockback: 0.5
+  muzzleVelocity: 1213.91
   firerate: 200
   maxAmmo: 12
   spread: 0
@@ -23,6 +24,7 @@ MonoBehaviour:
   AdsSpeed: 0.5
   AdsFOV: 30
   recoilSpread: {x: 0, y: 0, z: 0}
+  isProjectile: 0
   fireType: 0
   inventorySlot: 1
   reloadTime: 2

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponPickup : MonoBehaviour
+public class WeaponPickup : UnityEngine.MonoBehaviour
 {
     public float pickupRange;
     [SerializeField]

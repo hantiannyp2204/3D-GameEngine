@@ -3,7 +3,7 @@ using UnityEngine.Pool;
 
 namespace DesignPatterns.ObjectPool
 {
-    public class ProjectileManager : MonoBehaviour
+    public class ProjectileManager : UnityEngine.MonoBehaviour
     {
         [Tooltip("Prefab to shoot")]
         [SerializeField] private RevisedProjectile projectilePrefab;
@@ -68,7 +68,6 @@ namespace DesignPatterns.ObjectPool
             // move projectile forward
             bulletObject.GetComponent<Rigidbody>().AddForce(direction * currentWeapon.muzzleVelocity, ForceMode.Acceleration);
 
-            bulletObject.bulletRenderDelay();
 
             // turn off after a few seconds
             bulletObject.Deactivate();

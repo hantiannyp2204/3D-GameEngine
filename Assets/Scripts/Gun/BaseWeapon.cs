@@ -9,6 +9,7 @@ public class BaseWeapon : ScriptableObject
 {
     public ShootSystem weaponPrefab;
     public int damage;
+    public float weaponKnockback;
 
     public float muzzleVelocity;
 
@@ -21,6 +22,9 @@ public class BaseWeapon : ScriptableObject
     public int AdsFOV;
 
     public Vector3 recoilSpread;
+
+    public bool isProjectile;
+
     public enum shootingStyle
     {
         Single,

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GunAim:MonoBehaviour
+public class GunAim: UnityEngine.MonoBehaviour
 {
 	public int borderLeft;
 	public int borderRight;

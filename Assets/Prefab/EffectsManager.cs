@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EffectsManager : MonoBehaviour
+public class EffectsManager : UnityEngine.MonoBehaviour
 {
     [SerializeField] private ParticleSystem _muzzleFlash;
 

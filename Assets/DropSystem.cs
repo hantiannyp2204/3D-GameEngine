@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropSystem : MonoBehaviour
+public class DropSystem : UnityEngine.MonoBehaviour
 {
     public BaseWeapon weaponScriptableObject;
 
     Rigidbody rb;
     BoxCollider gunCollider;
-    Camera mainCam;
     ShootSystem shootSystem;
     GameObject gunContainer;
 
@@ -20,7 +19,7 @@ public class DropSystem : MonoBehaviour
         shootSystem = GetComponent<ShootSystem>();
         gunCollider = GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
-        mainCam = GetComponentInParent<Camera>();
+
         gunContainer = GameObject.Find("GunContainer");
 
         rb.isKinematic = true;
@@ -32,26 +31,34 @@ public class DropSystem : MonoBehaviour
 
     public void DropWeapon()
     {
-        transform.SetParent(null);
-        playerInv.DropWeapon(); 
-        rb.isKinematic = false;
-        rb.interpolation = RigidbodyInterpolation.Extrapolate;
-        gunCollider.enabled = true;
         shootSystem.enabled = false;
 
-        rb.AddForce(mainCam.transform.forward * 3, ForceMode.Impulse);
-        rb.AddForce(mainCam.transform.up * 6, ForceMode.Impulse);
+        Transform playerCam = GetComponentInParent<PlayerCam>().transform;
+        playerInv.DropWeapon();
+
+        transform.SetParent(null);
+
+        rb.isKinematic = false;
+        rb.interpolation = RigidbodyInterpolation.Extrapolate;
+
+   
+        rb.AddForce(playerCam.transform.forward * 3, ForceMode.Impulse);
+        rb.AddForce(playerCam.transform.up * 3, ForceMode.Impulse);
         rb.AddTorque(new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)) * 10);
+
+        gunCollider.enabled = true;
+  
+
     }
     public void PickUp()
     {
-        transform.SetParent(gunContainer.transform);
-        playerInv.PickUpWeapon(weaponScriptableObject, shootSystem);
-
         rb.isKinematic = true;
         rb.interpolation = RigidbodyInterpolation.None;
         gunCollider.enabled = false;
         shootSystem.enabled = true;
+
+        transform.SetParent(gunContainer.transform);
+        playerInv.PickUpWeapon(weaponScriptableObject, shootSystem);
 
         transform.localPosition= Vector3.zero;
         transform.localRotation = Quaternion.Euler(Vector3.zero);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecoilSystem : MonoBehaviour
+public class RecoilSystem : UnityEngine.MonoBehaviour
 {
     //rotations 
     private Vector3 currentRotation;

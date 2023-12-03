@@ -7,7 +7,7 @@ using UnityEngine;
 /// The sample using it is the "Extinguish" prefab. It use a second, non displayed
 /// particle system to lighten the load of collision detection.
 /// </summary>
-public class ParticleCollision : MonoBehaviour
+public class ParticleCollision : UnityEngine.MonoBehaviour
 {
     private List<ParticleCollisionEvent> m_CollisionEvents = new List<ParticleCollisionEvent>();
     private ParticleSystem m_ParticleSystem;

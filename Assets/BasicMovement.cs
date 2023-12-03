@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class BasicMovement : MonoBehaviour
+public class BasicMovement : UnityEngine.MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;

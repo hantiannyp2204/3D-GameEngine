@@ -2,7 +2,7 @@
 using System.Collections;
 using Random = UnityEngine.Random;
 
-public class GunShoot : MonoBehaviour {
+public class GunShoot : UnityEngine.MonoBehaviour {
 
 	public float fireRate = 0.25f;										// Number in seconds which controls how often the player can fire
 	public float weaponRange = 20f;										// Distance in Unity units over which the player can fire

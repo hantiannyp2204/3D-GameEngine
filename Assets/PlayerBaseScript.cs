@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBaseScript : MonoBehaviour
+public class PlayerBaseScript : UnityEngine.MonoBehaviour
 {
     [SerializeField]
     WeaponInventory inventory;
@@ -17,9 +17,16 @@ public class PlayerBaseScript : MonoBehaviour
     ProjectileManager bulletFx;
     [SerializeField]
     RecoilSystem recoilSystem;
+
+    [SerializeField]
+    PlayerMovement playerMovement;
+
+    [SerializeField]
+    RocketManager rocketManager;
     private void Start()
     {
         inventory.OnAddWeapon += addWeapon;
+        playerMovement.runningObserver += cameraManager.FOVSprinting;
     }
     public void addWeapon(ShootSystem gun)
     {
@@ -30,6 +37,8 @@ public class PlayerBaseScript : MonoBehaviour
         gun.adsShootObserver += recoilSystem.RecoilFire;
 
         gun.bulletRendererObserver += bulletFx.shootProjectile;
+
+        gun.rocketRendererObserver += rocketManager.Render;
 
         gun.adsObserver += cameraManager.FOVchange;
     }

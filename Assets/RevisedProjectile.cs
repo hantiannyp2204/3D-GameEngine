@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 namespace DesignPatterns.ObjectPool
 {
     // projectile revised to use UnityEngine.Pool in Unity 2021
-    public class RevisedProjectile : MonoBehaviour
+    public class RevisedProjectile : UnityEngine.MonoBehaviour
     {
         [SerializeField]
         MeshRenderer meshRenderer;
@@ -25,6 +25,7 @@ namespace DesignPatterns.ObjectPool
 
         IEnumerator DeactivateRoutine(float delay)
         {
+            bulletRenderDelay();
             yield return new WaitForSeconds(delay);
 
             // reset the moving Rigidbody
@@ -40,6 +41,11 @@ namespace DesignPatterns.ObjectPool
         {
             if(!collison.gameObject.CompareTag("Bullet"))
             {
+                // reset the moving Rigidbody
+                Rigidbody rBody = GetComponent<Rigidbody>();
+                rBody.velocity = new Vector3(0f, 0f, 0f);
+                rBody.angularVelocity = new Vector3(0f, 0f, 0f);
+
                 UnrenderBullet();
                 objectPool.Release(this);
             }

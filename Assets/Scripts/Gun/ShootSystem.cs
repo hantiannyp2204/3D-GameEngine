@@ -6,7 +6,7 @@ using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ShootSystem : MonoBehaviour
+public class ShootSystem : UnityEngine.MonoBehaviour
 {
     private Camera mainCam;
 
@@ -29,6 +29,7 @@ public class ShootSystem : MonoBehaviour
     float adsSpeed;
     public System.Action<BaseWeapon,Transform> shootObserver;
     public System.Action<BaseWeapon, Transform, Vector3> bulletRendererObserver;
+    public System.Action<BaseWeapon, Transform, Vector3> rocketRendererObserver;
     public System.Action<BaseWeapon, bool> adsObserver;
     public System.Action<BaseWeapon, Transform, bool> adsShootObserver;
 
@@ -75,7 +76,7 @@ public class ShootSystem : MonoBehaviour
         else
         {
             transform.localPosition = Vector3.Slerp(transform.localPosition, Vector3.zero, adsSpeed);
-            adsObserver.Invoke(currentWeapon, false);
+            adsObserver.Invoke(currentWeapon, false);   
             crosshair.SetActive(true);
         }
     }
@@ -118,6 +119,10 @@ public class ShootSystem : MonoBehaviour
         readyToShoot = false;
 
         shellEjected = false;
+
+        int damage=0;
+        IDestroyable breakableTarget = null;
+        ITarget targetPrefab = null;
         //will loop for shotguns or bursts
         for (int i = 0; i <= currentWeapon.palletAmount; i++)
         {
@@ -131,16 +136,50 @@ public class ShootSystem : MonoBehaviour
             Vector3 direction = mainCam.transform.forward + mainCam.transform.right * x + mainCam.transform.up*y;
 
 
-            if (Physics.Raycast(mainCam.transform.position, direction, out hit, 100, layerMaskIgnore))
+            //hit target logic
+            if(currentWeapon.isProjectile)
             {
-                //Crate c = hit.transform.GetComponent<Crate>();
-                //c.OnDamaged(10);
-                Debug.Log("hit");
-
-                //Quaternion.LookRotation(hit.normal) means where ever i am looking at's rotation
-                //hit normal makes it face upwards no matter the angle  
-                Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
+                rocketRendererObserver.Invoke(currentWeapon, muzleFlashTransform, mainCam.transform.forward);
             }
+            else
+            {
+                if (Physics.Raycast(mainCam.transform.position, direction, out hit, 100, layerMaskIgnore))
+                {
+                    breakableTarget = hit.transform.GetComponent<IDestroyable>();
+                    targetPrefab = hit.transform.GetComponent<ITarget>();
+                    if (breakableTarget != null)
+                    {
+                        damage += currentWeapon.damage;
+                        if (targetPrefab.generateBulletHole() != null && targetPrefab!=null)
+                        {
+                            GameObject bullethole = Instantiate(targetPrefab.generateBulletHole(), hit.point, Quaternion.LookRotation(hit.normal));
+                            bullethole.transform.SetParent(targetPrefab.getParent());
+                        }
+                       
+                    }
+                    else
+                    {
+                        //Quaternion.LookRotation(hit.normal) means where ever i am looking at's rotation
+                        //hit normal makes it face upwards no matter the angle  
+                        if (bulletHole != null)
+                        {
+                            Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
+                        }
+
+                    }
+
+                    //check rigidbody
+                    if (hit.rigidbody != null)
+                    {
+                        Vector3 dir = hit.point - mainCam.transform.position;
+                        hit.rigidbody.AddForce(dir* currentWeapon.weaponKnockback,ForceMode.Impulse);
+                    }
+                    Debug.Log("hit");
+                   
+                }
+                bulletRendererObserver.Invoke(currentWeapon, muzleFlashTransform, direction);
+            }
+            
 
 
             if(shellEjected == false)
@@ -152,12 +191,15 @@ public class ShootSystem : MonoBehaviour
             {
                 shellEjected = true;
             }
-            bulletRendererObserver.Invoke(currentWeapon, muzleFlashTransform, direction);
-
-
-
 
         }
+
+        //do damage(prevent mutiple instances of onDeath on breakable objects
+        if(breakableTarget != null)
+        {
+            breakableTarget.OnDamage(damage);
+        }
+
         if (isAiming == true)
         {
             adsShootObserver.Invoke(currentWeapon, muzleFlashTransform, true);

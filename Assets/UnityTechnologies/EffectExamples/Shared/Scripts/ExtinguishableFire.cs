@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// This simulate an extinguishable fire, 
 /// </summary>
-public class ExtinguishableFire : MonoBehaviour
+public class ExtinguishableFire : UnityEngine.MonoBehaviour
 {
     public ParticleSystem fireParticleSystem;
     public ParticleSystem smokeParticleSystem;
