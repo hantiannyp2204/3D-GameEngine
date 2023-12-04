@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f67a146deebfbe4487477e12662188b, type: 3}
+  m_Name: Homing
+  m_EditorClassIdentifier: 
+  weaponPrefab: {fileID: 5439359716202210292, guid: ee2b46a585a1a1643b59b8c4aec08711, type: 3}
+  damage: 400
+  weaponKnockback: 10
+  muzzleVelocity: 967.848
+  firerate: 1000
+  maxAmmo: 1
+  spread: 0
+  palletAmount: 0
+  timeBetweenShots: 0
+  AdsSpeed: 0.5
+  AdsFOV: 30
+  recoilSpread: {x: 0, y: 0, z: 0}
+  isProjectile: 1
+  isHoming: 1
+  fireType: 0
+  BulletType: 2
+  inventorySlot: 0
+  reloadTime: 2
+  weaponKick: 10
+  weaponSound: {fileID: 8300000, guid: 9c6852e1620592648b697069ec79ae83, type: 3}

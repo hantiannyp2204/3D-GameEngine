@@ -5,6 +5,7 @@ using System.Data.SqlTypes;
 using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShootSystem : UnityEngine.MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class ShootSystem : UnityEngine.MonoBehaviour
     
     public bool isReloading;
 
-    private GameObject crosshair;
+    private Image crosshair;
     public Vector3 aimpoint;
     public Quaternion aimRotation;
     //makes sure bullets only -1 if it is shotgun
@@ -30,6 +31,7 @@ public class ShootSystem : UnityEngine.MonoBehaviour
     public System.Action<BaseWeapon,Transform> shootObserver;
     public System.Action<BaseWeapon, Transform, Vector3> bulletRendererObserver;
     public System.Action<BaseWeapon, Transform, Vector3> rocketRendererObserver;
+    public System.Action<BaseWeapon, Transform, Vector3> missleRendererObserver;
     public System.Action<BaseWeapon, bool> adsObserver;
     public System.Action<BaseWeapon, Transform, bool> adsShootObserver;
 
@@ -39,10 +41,15 @@ public class ShootSystem : UnityEngine.MonoBehaviour
     public Transform muzleFlashTransform;
 
     DropSystem dropSystem;
+
+    public bool getAim()
+    {
+        return isAiming;
+    }
     private void Start()
     {
         dropSystem = GetComponent<DropSystem>();
-        crosshair = GameObject.Find("Crosshair");
+        crosshair = GameObject.Find("Crosshair").GetComponent<Image>();
         mainCam = GetComponentInParent<Camera>();
         ammoCounter = GetComponentInChildren<AmmoCounter>();
         projectileManager = GetComponent<ProjectileManager>();
@@ -71,13 +78,13 @@ public class ShootSystem : UnityEngine.MonoBehaviour
             transform.localPosition = Vector3.Slerp(transform.localPosition, aimpoint, adsSpeed);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, aimRotation, adsSpeed);
             adsObserver.Invoke(currentWeapon,true);
-            crosshair.SetActive(false);
+            crosshair.enabled = false;
         }
         else
         {
             transform.localPosition = Vector3.Slerp(transform.localPosition, Vector3.zero, adsSpeed);
-            adsObserver.Invoke(currentWeapon, false);   
-            crosshair.SetActive(true);
+            adsObserver.Invoke(currentWeapon, false);
+            crosshair.enabled = true;
         }
     }
     private void HandleButtonPresses()
@@ -107,6 +114,8 @@ public class ShootSystem : UnityEngine.MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
+            isAiming = false;
+           
             dropSystem.DropWeapon();
         }
     }
@@ -135,52 +144,52 @@ public class ShootSystem : UnityEngine.MonoBehaviour
             //direction = forward of where my cam is + Random(x axis of my camera) + Random(y axis of my camera)
             Vector3 direction = mainCam.transform.forward + mainCam.transform.right * x + mainCam.transform.up*y;
 
-
             //hit target logic
-            if(currentWeapon.isProjectile)
+            switch (currentWeapon.BulletType)
             {
-                rocketRendererObserver.Invoke(currentWeapon, muzleFlashTransform, mainCam.transform.forward);
-            }
-            else
-            {
-                if (Physics.Raycast(mainCam.transform.position, direction, out hit, 100, layerMaskIgnore))
-                {
-                    breakableTarget = hit.transform.GetComponent<IDestroyable>();
-                    targetPrefab = hit.transform.GetComponent<ITarget>();
-                    if (breakableTarget != null)
+                case BaseWeapon.bulletType.Raycast:
+                    if (Physics.Raycast(mainCam.transform.position, direction, out hit, 100, layerMaskIgnore))
                     {
-                        damage += currentWeapon.damage;
-                        if (targetPrefab.generateBulletHole() != null && targetPrefab!=null)
+                        breakableTarget = hit.transform.GetComponent<IDestroyable>();
+                        targetPrefab = hit.transform.GetComponent<ITarget>();
+                        if (breakableTarget != null)
                         {
-                            GameObject bullethole = Instantiate(targetPrefab.generateBulletHole(), hit.point, Quaternion.LookRotation(hit.normal));
-                            bullethole.transform.SetParent(targetPrefab.getParent());
+                            damage += currentWeapon.damage;
+                            if (targetPrefab != null && targetPrefab.generateBulletHole() != null)
+                            {
+                                GameObject bullethole = Instantiate(targetPrefab.generateBulletHole(), hit.point, Quaternion.LookRotation(hit.normal));
+                                bullethole.transform.SetParent(targetPrefab.getParent());
+                            }
+
                         }
-                       
-                    }
-                    else
-                    {
-                        //Quaternion.LookRotation(hit.normal) means where ever i am looking at's rotation
-                        //hit normal makes it face upwards no matter the angle  
-                        if (bulletHole != null)
+                        else
                         {
-                            Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
+                            //Quaternion.LookRotation(hit.normal) means where ever i am looking at's rotation
+                            //hit normal makes it face upwards no matter the angle  
+                            if (bulletHole != null)
+                            {
+                                Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));
+                            }
+
+                        }
+
+                        //check rigidbody
+                        if (hit.rigidbody != null)
+                        {
+                            Vector3 dir = hit.point - mainCam.transform.position;
+                            hit.rigidbody.AddForce(dir * currentWeapon.weaponKnockback, ForceMode.Impulse);
                         }
 
                     }
-
-                    //check rigidbody
-                    if (hit.rigidbody != null)
-                    {
-                        Vector3 dir = hit.point - mainCam.transform.position;
-                        hit.rigidbody.AddForce(dir* currentWeapon.weaponKnockback,ForceMode.Impulse);
-                    }
-                    Debug.Log("hit");
-                   
-                }
-                bulletRendererObserver.Invoke(currentWeapon, muzleFlashTransform, direction);
+                    bulletRendererObserver.Invoke(currentWeapon, muzleFlashTransform, direction);
+                    break;
+                case BaseWeapon.bulletType.Rocket:
+                    rocketRendererObserver.Invoke(currentWeapon, muzleFlashTransform, mainCam.transform.forward);
+                    break;
+                case BaseWeapon.bulletType.HomingMissle:
+                    missleRendererObserver.Invoke(currentWeapon, muzleFlashTransform, mainCam.transform.forward);
+                    break;
             }
-            
-
 
             if(shellEjected == false)
             {

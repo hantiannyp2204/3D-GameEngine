@@ -41,6 +41,15 @@ namespace DesignPatterns.ObjectPool
         {
             if(!collison.gameObject.CompareTag("Bullet"))
             {
+                //do damage to player if its player
+                if(collison.gameObject.CompareTag("Player"))
+                {
+                    IDestroyable destroyable = collison.gameObject.GetComponent<IDestroyable>();
+                    if(destroyable != null)
+                    {
+                        destroyable.OnDamage(20);
+                    }
+                }
                 // reset the moving Rigidbody
                 Rigidbody rBody = GetComponent<Rigidbody>();
                 rBody.velocity = new Vector3(0f, 0f, 0f);

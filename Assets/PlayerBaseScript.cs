@@ -23,6 +23,10 @@ public class PlayerBaseScript : UnityEngine.MonoBehaviour
 
     [SerializeField]
     RocketManager rocketManager;
+
+    [SerializeField]
+    MissleManager missleManager;
+
     private void Start()
     {
         inventory.OnAddWeapon += addWeapon;
@@ -36,9 +40,11 @@ public class PlayerBaseScript : UnityEngine.MonoBehaviour
 
         gun.adsShootObserver += recoilSystem.RecoilFire;
 
-        gun.bulletRendererObserver += bulletFx.shootProjectile;
+        gun.bulletRendererObserver += bulletFx.shootProjectileUsingWeapon;
 
         gun.rocketRendererObserver += rocketManager.Render;
+
+        gun.missleRendererObserver += missleManager.Render; 
 
         gun.adsObserver += cameraManager.FOVchange;
     }

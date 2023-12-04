@@ -11,7 +11,7 @@ public class CameraScipt : UnityEngine.MonoBehaviour
 
     public float shakeStrength ;
 
-
+    public bool playerAiming = false;
     private void Start()
     {
         mainCam= GetComponent<Camera>();
@@ -19,36 +19,39 @@ public class CameraScipt : UnityEngine.MonoBehaviour
     // Update is called once per frame
     public void FOVchange(BaseWeapon currentWeapon, bool isAiming)
     {
-        if(isAiming == true)
+        if (isAiming == true)
         {
+            playerAiming = true;
             FOVchange(currentWeapon.AdsFOV, currentWeapon.AdsSpeed);
         }
         else
         {
-            if(mainCam.fieldOfView != 60)
+            playerAiming = false;
+            if (mainCam.fieldOfView != 60)
             {
                 FOVchange(60, 0.3f);
             }
 
         }
     }
+    public void FOVchange(float newFOV, float timeToChange)
+    {
+        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newFOV, 10 / timeToChange * Time.deltaTime);
+    }
     public void FOVSprinting(bool isSprinting)
     {
-        if (isSprinting == true)
+        if(playerAiming != true)
         {
-            FOVchange(75, 0.3f);
-        }
-        else
-        {
-            if (mainCam.fieldOfView != 60)
+            if (isSprinting == true)
+            {
+                FOVchange(75, 0.3f);
+            }
+            else
             {
                 FOVchange(60, 0.3f);
             }
         }
-    }
-    public void FOVchange(float newFOV, float timeToChange)
-    {
-        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newFOV, 10 / timeToChange * Time.deltaTime);
+
     }
     public void Shake(BaseWeapon currentWeapon, Transform muzzleFlash)
     {

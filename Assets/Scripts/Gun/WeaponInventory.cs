@@ -24,6 +24,9 @@ public class WeaponInventory : UnityEngine.MonoBehaviour
     public Transform hand;
 
     ShootSystem[] spawnedWeaponPrefab = new ShootSystem[2];
+
+    [SerializeField]
+    Camera playerMainCamera;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +55,11 @@ public class WeaponInventory : UnityEngine.MonoBehaviour
             switchWeapon(inventorySlot.Secondary);
         }
 
+        //set fov back to noraml if no weapon equipd
+        if(currentEquiped == null)
+        {
+            playerMainCamera.fieldOfView = 60;
+        }
     }
     public void DropWeapon()
     {

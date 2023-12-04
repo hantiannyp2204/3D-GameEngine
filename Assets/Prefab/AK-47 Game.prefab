@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isShooting: 0
   isReloading: 0
-  aimpoint: {x: 0.45, y: 0.082, z: -0.3}
+  aimpoint: {x: 0.33, y: 0.082, z: -0.3}
   aimRotation: {x: 0, y: 0, z: 0.013089596, w: 0.99991435}
   bulletHole: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
   muzleFlashTransform: {fileID: 4223775208259317776}

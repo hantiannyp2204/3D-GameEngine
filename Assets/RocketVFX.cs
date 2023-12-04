@@ -27,6 +27,7 @@ public class RocketVFX : UnityEngine.MonoBehaviour
     public IObjectPool<RocketVFX> ObjectPool { set => objectPool = value; }
 
     bool exploded;
+    private bool isExploding = false;
     public void Deactivate()
     {
         StartCoroutine(DeactivateRoutine(timeoutDelay));
@@ -37,7 +38,10 @@ public class RocketVFX : UnityEngine.MonoBehaviour
         {
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.velocity = Vector3.zero;
-            CheckForBreakablesInImpactArea();
+            if (!isExploding)
+            {
+                CheckForTargetsInImpactArea();
+            }
             explosionVFX.Play();
             explosionSound.Play();
             for(int x =0; x< particleSystems.Count;x++)
@@ -51,41 +55,47 @@ public class RocketVFX : UnityEngine.MonoBehaviour
     }
 
     // Call this method to check for objects within the impact area during runtime
-    public void CheckForBreakablesInImpactArea()
+    public void CheckForTargetsInImpactArea()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, impactRadius);
 
         foreach (Collider collider in colliders)
         {
-            if (collider.CompareTag("Target"))
+            // Get the closest point on the collider to the center of the impact area
+            Vector3 closestPoint = collider.ClosestPoint(transform.position);
+
+            // Calculate the distance between the rocket and the closest point on the collider
+            float distance = Vector3.Distance(transform.position, closestPoint);
+
+            float calculatedDamage = CalculateDamage(rocketDamage, distance);
+            ITarget target = collider.GetComponent<ITarget>();
+            if (target != null)
             {
-                // Get the closest point on the collider to the center of the impact area
-                Vector3 closestPoint = collider.ClosestPoint(transform.position);
-
-                // Calculate the distance between the rocket and the closest point on the collider
-                float distance = Vector3.Distance(transform.position, closestPoint);
-
-                float calculatedDamage = CalculateDamage(rocketDamage, distance);
-
-                MonoBehaviour breakablesScript = collider.GetComponent<MonoBehaviour>();
-                if (breakablesScript != null)
+                Rigidbody rb = collider.GetComponent<Rigidbody>();
+                if (rb != null)
                 {
-                    Rigidbody rb = breakablesScript.GetComponent<Rigidbody>();
-                    if (rb != null)
-                    {
-                        Vector3 forceDirection = closestPoint - transform.position;
-                        forceDirection.Normalize(); // Normalize to get a unit vector
-                        rb.AddForce(forceDirection * calculatedDamage * 10);
-                    }
+                    Vector3 forceDirection = collider.transform.position - transform.position;
+                    Debug.Log(forceDirection);
+                    forceDirection.Normalize(); // Normalize to get a unit vector
+                    rb.AddForce(forceDirection * calculatedDamage * 10);
 
-                    Debug.Log((int)calculatedDamage);   
-                    IDestroyable target = collider.GetComponent<IDestroyable>();
-                    if(target != null)
+                    Vector3 pushVelocity = forceDirection * calculatedDamage * 10;
+                    //keep velocity if its crate
+                    Crate crateBox = collider.GetComponent<Crate>();
+                    if (crateBox != null)
                     {
-                        target.OnDamage((int)calculatedDamage);
+                        crateBox.setInitialVelocity(pushVelocity);
                     }
-                    
                 }
+
+                Debug.Log((int)calculatedDamage);
+
+
+            }
+            IDestroyable destroyable = collider.GetComponent<IDestroyable>();
+            if (destroyable != null)
+            {
+                destroyable.OnDamage((int)calculatedDamage);
             }
         }
     }

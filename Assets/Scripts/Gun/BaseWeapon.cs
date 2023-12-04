@@ -23,8 +23,7 @@ public class BaseWeapon : ScriptableObject
 
     public Vector3 recoilSpread;
 
-    public bool isProjectile;
-
+    public bool isHoming;
     public enum shootingStyle
     {
         Single,
@@ -40,6 +39,13 @@ public class BaseWeapon : ScriptableObject
         Secondary,
         None
     }
+    public enum bulletType
+    {
+        Raycast,
+        Rocket,
+        HomingMissle
+    }
+    public bulletType BulletType;
     public weaponType inventorySlot;
     public float reloadTime;
     public float weaponKick;

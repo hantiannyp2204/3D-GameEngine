@@ -52,7 +52,7 @@ public class PlayerMovement : UnityEngine.MonoBehaviour
     private bool exitingSlope;
     
 
-    public Transform camera;
+    public GameObject camera;
     public GameObject PlayerRender;
 
     float horizontalInput;
@@ -210,7 +210,7 @@ public class PlayerMovement : UnityEngine.MonoBehaviour
             state = MovementState.proning;
         }
         // Mode - Sprinting
-        else if(grounded && Input.GetKey(sprintKey) && isProning == false)
+        else if(grounded && Input.GetKey(sprintKey) && isProning == false && camera.GetComponent<CameraScipt>().playerAiming != true)
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -277,7 +277,7 @@ public class PlayerMovement : UnityEngine.MonoBehaviour
     {
         // calculate movement direction
 
-        moveDirection = new Vector3(camera.forward.x * verticalInput + camera.right.x * horizontalInput,0, camera.forward.z * verticalInput + camera.right.z * horizontalInput);
+        moveDirection = new Vector3(camera.transform.forward.x * verticalInput + camera.transform.right.x * horizontalInput,0, camera.transform.forward.z * verticalInput + camera.transform.right.z * horizontalInput);
         // on slope
         if (OnSlope() && !exitingSlope)
         {

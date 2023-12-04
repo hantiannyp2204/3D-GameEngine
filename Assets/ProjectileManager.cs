@@ -54,7 +54,7 @@ namespace DesignPatterns.ObjectPool
         {
             Destroy(pooledObject.gameObject);
         }
-        public void shootProjectile(BaseWeapon currentWeapon,Transform muzzlePos, Vector3 direction)
+        public void shootProjectileUsingWeapon(BaseWeapon currentWeapon,Transform muzzlePos, Vector3 direction)
         {
             // get a pooled object instead of instantiating
             RevisedProjectile bulletObject = objectPool.Get();
@@ -67,6 +67,25 @@ namespace DesignPatterns.ObjectPool
 
             // move projectile forward
             bulletObject.GetComponent<Rigidbody>().AddForce(direction * currentWeapon.muzzleVelocity, ForceMode.Acceleration);
+
+
+            // turn off after a few seconds
+            bulletObject.Deactivate();
+
+        }
+        public void shootProjectile(Transform muzzlePos, Vector3 direction, int projectileSpeed)
+        {
+            // get a pooled object instead of instantiating
+            RevisedProjectile bulletObject = objectPool.Get();
+
+            if (bulletObject == null)
+                return;
+
+            // align to gun barrel/muzzle position
+            bulletObject.transform.SetPositionAndRotation(muzzlePos.position, Quaternion.LookRotation(muzzlePos.transform.forward));
+
+            // move projectile forward
+            bulletObject.GetComponent<Rigidbody>().AddForce(direction * projectileSpeed, ForceMode.Acceleration);
 
 
             // turn off after a few seconds

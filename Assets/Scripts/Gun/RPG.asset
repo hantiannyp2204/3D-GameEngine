@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 8621031803589977745, guid: 0349077ac3dc5344d85b6e07b822898b, type: 3}
   damage: 400
+  weaponKnockback: 10
   muzzleVelocity: 967.848
   firerate: 1000
   maxAmmo: 1
@@ -24,7 +25,9 @@ MonoBehaviour:
   AdsFOV: 30
   recoilSpread: {x: 0, y: 0, z: 0}
   isProjectile: 1
+  isHoming: 0
   fireType: 0
+  BulletType: 1
   inventorySlot: 0
   reloadTime: 2
   weaponKick: 10

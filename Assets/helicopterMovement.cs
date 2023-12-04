@@ -23,18 +23,18 @@ public class helicopterMovement : MonoBehaviour, ITarget, IDestroyable
     private float rotateSpeed = 360;
     private float currentRotation = 0;
 
-    private float verticalSpeed = 2f; // Adjust the speed of the vertical movement
+    public float verticalSpeed = 2f; // Adjust the speed of the vertical movement
     private float amplitude = 1f; // Adjust the amplitude of the movement
     private float yOffset = 0f; // Offset to control the starting position of the movement
 
-    private float moveSpeed = 2;
+    public float moveSpeed = 2;
     float xPos = 0;
-    float constantRotationSpeed = -20;
+    public float constantRotationSpeed = -20;
     // Start is called before the first frame update
 
     bool alive = true;
     bool landed = false;
-    Rigidbody rb;
+    public Rigidbody rb;
     Collider collider;
     float randomRotation;
     public Transform getParent()

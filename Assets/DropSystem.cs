@@ -34,6 +34,7 @@ public class DropSystem : UnityEngine.MonoBehaviour
         shootSystem.enabled = false;
 
         Transform playerCam = GetComponentInParent<PlayerCam>().transform;
+
         playerInv.DropWeapon();
 
         transform.SetParent(null);
@@ -52,6 +53,7 @@ public class DropSystem : UnityEngine.MonoBehaviour
     }
     public void PickUp()
     {
+        Debug.Log("nigg");
         rb.isKinematic = true;
         rb.interpolation = RigidbodyInterpolation.None;
         gunCollider.enabled = false;
