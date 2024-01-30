@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1384985213711134541}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 6676071546596180914}
   - component: {fileID: 6593090931313374228}
   - component: {fileID: 6439648897510476487}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 848785670766177083}
   - component: {fileID: -4946502602652105840}
   - component: {fileID: 3930687245340802348}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: L96_Sniper_Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 282923807014239424}
   - component: {fileID: 860575419902467547}
   - component: {fileID: 509545974618364611}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SniperRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 6330016301699873046}
   - component: {fileID: 433803426141275227}
   - component: {fileID: 9175898737489725884}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: SniperPNG
   m_TagString: Untagged
   m_Icon: {fileID: 0}

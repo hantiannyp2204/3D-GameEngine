@@ -78,7 +78,7 @@ public class PlayerMovement : UnityEngine.MonoBehaviour
 
     public bool sliding;
     public bool wallrunning;
-
+    bool isPlayerAiming;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -94,6 +94,7 @@ public class PlayerMovement : UnityEngine.MonoBehaviour
 
     private void Update()
     {
+        isPlayerAiming = camera.GetComponent<CameraScipt>().playerAiming;
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
@@ -167,7 +168,7 @@ public class PlayerMovement : UnityEngine.MonoBehaviour
         {
             runningObserver.Invoke(true);
         }
-        else
+        if (Input.GetKeyUp(sprintKey))
         {
             runningObserver.Invoke(false);
         }
@@ -210,7 +211,7 @@ public class PlayerMovement : UnityEngine.MonoBehaviour
             state = MovementState.proning;
         }
         // Mode - Sprinting
-        else if(grounded && Input.GetKey(sprintKey) && isProning == false && camera.GetComponent<CameraScipt>().playerAiming != true)
+        else if(grounded && Input.GetKey(sprintKey) && isProning == false && isPlayerAiming != true)
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -239,7 +240,6 @@ public class PlayerMovement : UnityEngine.MonoBehaviour
         {
             moveSpeed = desiredMoveSpeed;
         }
-
         lastDesiredMoveSpeed = desiredMoveSpeed;
     }
 

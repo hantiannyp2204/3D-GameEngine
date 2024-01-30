@@ -27,10 +27,11 @@ public class PlayerBaseScript : UnityEngine.MonoBehaviour
     [SerializeField]
     MissleManager missleManager;
 
-    private void Start()
+    private void Awake()
     {
-        inventory.OnAddWeapon += addWeapon;
         playerMovement.runningObserver += cameraManager.FOVSprinting;
+        inventory.OnAddWeapon += addWeapon;
+
     }
     public void addWeapon(ShootSystem gun)
     {

@@ -12,6 +12,7 @@ public class CameraScipt : UnityEngine.MonoBehaviour
     public float shakeStrength ;
 
     public bool playerAiming = false;
+    float timer;
     private void Start()
     {
         mainCam= GetComponent<Camera>();
@@ -22,16 +23,17 @@ public class CameraScipt : UnityEngine.MonoBehaviour
         if (isAiming == true)
         {
             playerAiming = true;
+            Debug.Log("run aim true");
             FOVchange(currentWeapon.AdsFOV, currentWeapon.AdsSpeed);
         }
         else
         {
             playerAiming = false;
+            Debug.Log("run aim true");
             if (mainCam.fieldOfView != 60)
             {
                 FOVchange(60, 0.3f);
             }
-
         }
     }
     public void FOVchange(float newFOV, float timeToChange)
@@ -44,10 +46,12 @@ public class CameraScipt : UnityEngine.MonoBehaviour
         {
             if (isSprinting == true)
             {
+                Debug.Log("run true");
                 FOVchange(75, 0.3f);
             }
             else
             {
+                Debug.Log("run false");
                 FOVchange(60, 0.3f);
             }
         }

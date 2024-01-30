@@ -12,20 +12,18 @@ public class Health : MonoBehaviour,IDestroyable
     public void OnDamage(int damage)
     {
         health -= damage;
-        if(health <=0)
+        UpdateHealthTxt();
+        if (health <=0)
         {
             Debug.Log("death");
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        UpdateHealthTxt();
     }
-
     // Update is called once per frame
-    void Update()
+    void UpdateHealthTxt()
     {
         healthTxt.text = "Health: "+ health.ToString();
     }

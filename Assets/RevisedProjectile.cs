@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 namespace DesignPatterns.ObjectPool
 {
     // projectile revised to use UnityEngine.Pool in Unity 2021
-    public class RevisedProjectile : UnityEngine.MonoBehaviour
+    public class RevisedProjectile : MonoBehaviour
     {
         [SerializeField]
         MeshRenderer meshRenderer;

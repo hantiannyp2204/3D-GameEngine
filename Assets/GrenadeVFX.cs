@@ -121,7 +121,6 @@ namespace DesignPatterns.ObjectPool
                     if (rb != null)
                     {
                         Vector3 forceDirection = collider.transform.position - transform.position;
-                        Debug.Log(forceDirection);
                         forceDirection.Normalize(); // Normalize to get a unit vector
                         rb.AddForce(forceDirection * calculatedDamage * 10);
 

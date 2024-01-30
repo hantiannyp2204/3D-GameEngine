@@ -9,17 +9,25 @@ public class Crate : MonoBehaviour, ITarget, IDestroyable
     int health = 80;
     [SerializeField]
     GameObject bulletHole;
-
+    [SerializeField]
+    GameObject healthPack;
     Rigidbody rbCrate;
     Vector3 initialVelocity;
+
+    bool isBroken = false;
     private void Start()
     {
         rbCrate = GetComponent<Rigidbody>();
     }
     void BecomeBroken()
     {
+        //Instantiate a health pack
+        GameObject brokenSFX = Instantiate(healthPack, transform.position, transform.rotation);
+
+        brokenSFX.transform.SetParent(null);
+
         // Instantiate the broken crate
-        GameObject brokenSFX = Instantiate(brokenCrate, transform.position, transform.rotation);
+        brokenSFX = Instantiate(brokenCrate, transform.position, transform.rotation);
 
 
         // Detach the brokenSFX from the parent
@@ -28,7 +36,6 @@ public class Crate : MonoBehaviour, ITarget, IDestroyable
         // Get all Rigidbody components in children
         Rigidbody[] rigidbodies = brokenSFX.GetComponentsInChildren<Rigidbody>();
         int number =0;
-        Debug.Log(initialVelocity);
         // Apply force and set initial velocities to each Rigidbody
         foreach (Rigidbody rb in rigidbodies)
         {
@@ -37,9 +44,7 @@ public class Crate : MonoBehaviour, ITarget, IDestroyable
             // Add force to the Rigidbody
             rb.AddForce(initialVelocity);
 
-            Debug.Log(rb.velocity);
         }
-        Debug.Log(number + " of rb found");
 
 
         // Destroy the original crate
@@ -56,8 +61,12 @@ public class Crate : MonoBehaviour, ITarget, IDestroyable
         health -= damage;
         if (health <= 0)
         {
+           if(isBroken == false)
+            {
+                BecomeBroken();
+                isBroken = true;
+            }
            
-            BecomeBroken();
         }
     }
 
